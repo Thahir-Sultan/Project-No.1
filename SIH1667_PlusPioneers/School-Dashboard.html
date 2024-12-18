@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - School Management Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* Navigation Styles */
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        .nav-link.active {
+            color: #fd7e14;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        /* Profile Image */
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            transition: transform 0.3s ease;
+            height: 50px;
+            width: 50px;
+        }
+        .footer {
+            background-color: #181515;
+            color: white;
+            padding: 2rem 0;
+        }
+        body { 
+            background-color: #f4f6f9; 
+            font-family: 'Arial', sans-serif;
+        }
+        .dashboard-container {
+            background-color: white; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .student-card {
+            margin-bottom: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            padding: 15px;
+            cursor: pointer;
+        }
+        .edit-modal-overlay, .course-levels-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .edit-modal, .course-levels-modal {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 500px;
+            max-width: 90%;
+        }
+        .course-level {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+        }
+        .course-level .lock-icon {
+            margin-right: 15px;
+            font-size: 24px;
+        }
+        .course-level.locked {
+            background-color: #f8f9fa;
+            color: #6c757d;
+        }
+        .course-level.unlocked {
+            background-color: #e9ecef;
+            color: #212529;
+        }
+        .lock-icon {
+            cursor: pointer;
+        }
+        /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="School-Dashboard.html" class="nav-link active pt-3">Management Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="School-login.html" class="nav-link">Student<br>Logout</a>
+                    </li>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="School-profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="dashboard-container">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span> 
+                - School Management Dashboard
+            </h2>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            School Information
+                        </div>
+                        <div class="card-body">
+                            <p id="school-name">School Name: Loading...</p>
+                            <p id="school-udise">UDISE Code: Loading...</p>
+                        </div>
+                    </div>
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            Student Statistics
+                        </div>
+                        <div class="card-body">
+                            <p>Total Students: <span id="total-students">0</span></p>
+                            <button class="btn btn-primary w-100" id="add-student-btn">+ Add New Student</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            Student Profiles
+                        </div>
+                        <div class="card-body" id="students-list">
+                            <!-- Students will be dynamically loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Student Modal -->
+    <div id="edit-modal" class="edit-modal-overlay">
+        <div class="edit-modal">
+            <h3 class="text-center mb-4">Edit Student Profile</h3>
+            <form id="edit-student-form">
+                <input type="hidden" id="edit-student-id">
+                <div class="mb-3">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-control" id="edit-name" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Grade</label>
+                    <select class="form-control" id="edit-grade">
+                        <option value="6">6th</option>
+                        <option value="7">7th</option>
+                        <option value="8">8th</option>
+                        <option value="9">9th</option>
+                        <option value="10">10th</option>
+                        <option value="11">11th</option>
+                        <option value="12">12th</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Stream</label>
+                    <select class="form-control" id="edit-stream">
+                        <option value="Computer Science">Computer Science</option>
+                        <option value="Biology">Biology</option>
+                        <option value="Commerce">Commerce</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Interests</label>
+                    <textarea class="form-control" id="edit-interests" rows="3" placeholder="Comma-separated interests"></textarea>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" id="close-modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Course Levels Modal -->
+    <div id="course-levels-modal" class="course-levels-modal-overlay">
+        <div class="course-levels-modal">
+            <h3 class="text-center mb-4" id="student-name-title">Student Courses</h3>
+            <div id="course-levels-container">
+                <div class="course-level unlocked" data-level="Beginner">
+                    <span class="lock-icon">🔓</span>
+                    <div>
+                        <h5>Beginner Level</h5>
+                        <p>Introductory courses and foundational skills</p>
+                    </div>
+                </div>
+                <div class="course-level locked" data-level="Intermediate">
+                    <span class="lock-icon">🔒</span>
+                    <div>
+                        <h5>Intermediate Level</h5>
+                        <p>Advanced skills and deeper learning</p>
+                    </div>
+                </div>
+                <div class="course-level locked" data-level="Advanced">
+                    <span class="lock-icon">🔒</span>
+                    <div>
+                        <h5>Advanced Level</h5>
+                        <p>Expert-level courses and specialized training</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <button class="btn btn-secondary" id="close-course-levels-modal">Close</button>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" onclick="navigateTo(PATHS.support)" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.contact)" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.about)" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { 
+    getAuth, 
+    signInWithEmailAndPassword,
+    onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+    getDatabase, 
+    ref, 
+    get,
+    update,
+    remove,
+    push,
+    query,
+    orderByChild,
+    equalTo
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+    authDomain: "career-craft-1667.firebaseapp.com",
+    databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "career-craft-1667",
+    storageBucket: "career-craft-1667.firebasestorage.app",
+    messagingSenderId: "616676439535",
+    appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+    measurementId: "G-YND0YL7Y94"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const database = getDatabase(app);
+
+// Authentication State
+let currentSchool = null;
+
+// Wait for auth state to be determined
+const authPromise = new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+        unsubscribe(); // Unsubscribe immediately to prevent multiple calls
+        if (user) {
+            resolve(user);
+        } else {
+            reject(new Error('Not authenticated'));
+        }
+    }, reject);
+});
+
+// Load School and Students
+async function initializeDashboard() {
+    try {
+        // Wait for authentication
+        const user = await authPromise;
+
+        // Fetch schools data
+        const schoolsSnapshot = await get(ref(database, 'schools'));
+        const schools = schoolsSnapshot.val();
+
+        // Find the school that matches the current user's email
+        // Check both currentAdministrator and email fields
+        currentSchool = Object.values(schools).find(school => 
+            school.currentAdministrator === user.email || 
+            school.email === user.email
+        );
+
+        if (!currentSchool) {
+            throw new Error('School not found for this user');
+        }
+
+        // Set school information
+        document.getElementById('school-name').textContent = `School Name: ${currentSchool.name}`;
+        document.getElementById('school-udise').textContent = `UDISE Code: ${currentSchool.udiseCode}`;
+
+        // Load students for this school
+        loadStudents();
+    } catch (error) {
+        console.error('Error retrieving school data:', error);
+        window.location.href = 'School-Login.html';
+    }
+}
+
+// Load Students Function
+async function loadStudents() {
+    try {
+        const studentsSnapshot = await get(ref(database, 'students'));
+        const studentsList = document.getElementById('students-list');
+        studentsList.innerHTML = ''; // Clear existing students
+
+        let totalStudents = 0;
+        const studentsData = studentsSnapshot.val() || {};
+
+        // Filter students by current school's UDISE code
+        Object.entries(studentsData).forEach(([key, student]) => {
+            // Check if student's school UDISE code matches current school
+            if (student.school && student.school.udiseCode === currentSchool.udiseCode) {
+                totalStudents++;
+                const studentCard = document.createElement('div');
+                studentCard.classList.add('student-card');
+                studentCard.dataset.key = key;
+                studentCard.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5>${student.name}</h5>
+                        <div>
+                            <button class="btn btn-sm btn-primary edit-student" data-key="${key}">Edit</button>
+                            <button class="btn btn-sm btn-danger delete-student" data-key="${key}">Delete</button>
+                        </div>
+                    </div>
+                    <p>Grade: ${student.grade}</p>
+                    <p>Stream: ${student.stream}</p>
+                    <p>Interests: ${student.interests ? student.interests.join(', ') : 'None'}</p>
+                `;
+                studentsList.appendChild(studentCard);
+            }
+        });
+
+        document.getElementById('total-students').textContent = totalStudents;
+
+        // Add event listeners for edit and delete buttons
+        document.querySelectorAll('.edit-student').forEach(button => {
+            button.addEventListener('click', openEditModal);
+        });
+        document.querySelectorAll('.delete-student').forEach(button => {
+            button.addEventListener('click', deleteStudent);
+        });
+
+        // Add event listener for student card to show course levels
+        document.querySelectorAll('.student-card').forEach(card => {
+            card.addEventListener('click', openCourseLevelsModal);
+        });
+    } catch (error) {
+        console.error('Error loading students:', error);
+        alert('Failed to load students.');
+    }
+}
+    
+        // Open Course Levels Modal
+        function openCourseLevelsModal(event) {
+            // Prevent triggering edit/delete buttons
+            if (event.target.closest('.edit-student, .delete-student')) return;
+    
+            const studentKey = event.currentTarget.dataset.key;
+            const studentName = event.currentTarget.querySelector('h5').textContent;
+    
+            // Set student name in modal title
+            document.getElementById('student-name-title').textContent = `${studentName}'s Courses`;
+    
+            // Show the modal
+            document.getElementById('course-levels-modal').style.display = 'flex';
+        }
+    
+        // Close Course Levels Modal
+        document.getElementById('close-course-levels-modal').addEventListener('click', () => {
+            document.getElementById('course-levels-modal').style.display = 'none';
+        });
+    
+        // Open Edit Modal
+        function openEditModal(event) {
+            const studentKey = event.target.dataset.key;
+            
+            // Find the student in the existing data
+            const studentRef = ref(database, `students/${studentKey}`);
+            get(studentRef).then((snapshot) => {
+                const student = snapshot.val();
+    
+                if (student) {
+                    document.getElementById('edit-student-id').value = studentKey;
+                    document.getElementById('edit-name').value = student.name;
+                    document.getElementById('edit-grade').value = student.grade;
+                    document.getElementById('edit-stream').value = student.stream;
+                    document.getElementById('edit-interests').value = student.interests ? student.interests.join(', ') : '';
+    
+                    document.getElementById('edit-modal').style.display = 'flex';
+                }
+            });
+        }
+    
+        // Save Edited Student
+        document.getElementById('edit-student-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const studentKey = document.getElementById('edit-student-id').value;
+            const updatedStudent = {
+                name: document.getElementById('edit-name').value,
+                grade: document.getElementById('edit-grade').value,
+                stream: document.getElementById('edit-stream').value,
+                interests: document.getElementById('edit-interests').value
+                    .split(',')
+                    .map(interest => interest.trim())
+                    .filter(interest => interest !== '')
+            };
+    
+            try {
+                // Update the specific student record
+                await update(ref(database, `students/${studentKey}`), updatedStudent);
+                
+                document.getElementById('edit-modal').style.display = 'none';
+                alert('Student profile updated successfully!');
+                loadStudents(); // Refresh the student list
+            } catch (error) {
+                console.error('Error updating student:', error);
+                alert('Failed to update student profile.');
+            }
+        });
+    
+        // Close Modal
+        document.getElementById('close-modal').addEventListener('click', () => {
+            document.getElementById('edit-modal').style.display = 'none';
+        });
+    
+        // Delete Student
+        async function deleteStudent(event) {
+            const studentKey = event.target.dataset.key;
+            
+            if (confirm('Are you sure you want to delete this student profile?')) {
+                try {
+                    // Delete the specific student record
+                    await remove(ref(database, `students/${studentKey}`));
+                    
+                    alert('Student profile deleted successfully!');
+                    loadStudents(); // Refresh the student list
+                } catch (error) {
+                    console.error('Error deleting student:', error);
+                    alert('Failed to delete student profile.');
+                }
+            }
+        }
+    
+        // Add New Student
+        document.getElementById('add-student-btn').addEventListener('click', async () => {
+            // Prompt for new student details
+            const studentData = {
+                name: prompt('Enter Student Full Name:'),
+                grade: prompt('Enter Student Grade (6-12):'),
+                stream: prompt('Enter Stream (Computer Science/Biology/Commerce):'),
+                interests: prompt('Enter Student Interests (comma-separated):')?.split(',').map(i => i.trim()),
+                school: {
+                    name: currentSchool.name,
+                    udiseCode: currentSchool.udiseCode,
+                    board: currentSchool.board,
+                    contact: {
+                        email: currentSchool.email,
+                        phone: currentSchool.phone
+                    }
+                }
+            };
+    
+            if (studentData.name && studentData.grade && studentData.stream) {
+                try {
+                    const studentsRef = ref(database, 'students');
+                    const newStudentRef = push(studentsRef);
+                    await update(newStudentRef, studentData);
+                    
+                    alert('New student added successfully!');
+                    loadStudents(); // Refresh the student list
+                } catch (error) {
+                    console.error('Error adding student:', error);
+                    alert('Failed to add new student.');
+                }
+            }
+        });
+    
+        // Initialize the dashboard when the page loads
+        initializeDashboard();
+    </script>
+</body>
+</html>

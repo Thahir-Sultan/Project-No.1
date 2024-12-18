@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Course Details</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" as="style">
+    
+    <!-- CSS Libraries -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    
+    <style>
+       /* Brand Colors */
+       .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        .nav-link.active {
+            color: #fd7e14;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+        .footer {
+            background: #181515;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .module-card {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .module-card.locked {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .module-progress {
+            height: 10px;
+            margin-top: 10px;
+        }
+        
+        .video-module {
+            background-color: #e6f2ff;
+        }
+        
+        .quiz-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .quiz-modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .quiz-question {
+            margin-bottom: 20px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .quiz-option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        .quiz-option.selected {
+            background-color: #e0e0e0;
+            border-color: #4CAF50;
+        }
+
+        .quiz-result {
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+     <!-- Navigation -->
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active pt-3">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills &<br>Badges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" onclick="AuthManager.logout()" class="nav-link active pt-3">Logout</a>
+                    </li>
+                </ul>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Course Content -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Course Overview Section -->
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h3 id="courseTitleHeader">Course Overview</h3>
+                    </div>
+                    <div class="card-body" id="courseInfoContainer">
+                        <!-- Dynamic course info will be loaded here -->
+                    </div>
+                </div>
+                
+                <!-- Progress Tracking -->
+                <div class="card mt-3 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h4 class="mb-0">Your Progress</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress" style="height: 20px;">
+                            <div id="courseProgressBar" 
+                                 class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 role="progressbar" 
+                                 style="width: 0%;">
+                                0%
+                            </div>
+                        </div>
+                        <p class="mt-2 text-muted">
+                            Completed Modules: 
+                            <span id="completedModulesCount">0</span> / 
+                            <span id="totalModulesCount">0</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modules Section -->
+            <div class="col-md-8">
+                <h2 id="modulesSectionTitle">Course Modules</h2>
+                <div id="courseModulesContainer">
+                    <!-- Dynamic modules will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Modal -->
+    <div class="modal fade" id="quizModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="quizModalTitle">Quiz</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="quizModalBody">
+                    <!-- Quiz content will be dynamically loaded -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="submitQuizBtn">Submit Quiz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="quizModal" class="quiz-modal">
+        <div class="quiz-modal-content">
+            <h2 id="quizTitle">Course Quiz</h2>
+            <div id="quizContainer"></div>
+            <button id="submitQuizBtn" class="btn btn-primary mt-3">Submit Quiz</button>
+            <div id="quizResult" class="quiz-result"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- External Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getFirestore, collection, query, where, getDocs, orderBy, getDoc, doc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        import { getDatabase, ref, update, get } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+        
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.appspot.com",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+            measurementId: "G-YND0YL7Y94"
+        };
+        
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const firestore = getFirestore(app);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+        
+        // Fetch Course Details
+        async function fetchCourseDetails(courseId) {
+            try {
+                const courseRef = doc(firestore, 'courses', courseId);
+                const courseSnap = await getDoc(courseRef);
+    
+                if (courseSnap.exists()) {
+                    const courseData = courseSnap.data();
+                    document.getElementById('courseTitleHeader').textContent = courseData.name;
+                    document.getElementById('courseInfoContainer').innerHTML = `
+                        <p><strong>Category:</strong> ${courseData.category}</p>
+                        <p><strong>Level:</strong> ${courseData.level}</p>
+                        <p><strong>Duration:</strong> ${courseData.duration}</p>
+                        <p>${courseData.description}</p>
+                        <img src="${courseData.thumbnailUrl}" alt="${courseData.name}" class="img-fluid mb-3">
+                    `;
+                }
+            } catch (error) {
+                console.error('Error fetching course details:', error);
+            }
+        }
+    
+        // Fetch Course Modules
+        async function fetchCourseModules(courseId) {
+            try {
+                const modulesRef = collection(firestore, 'courseModules');
+                const modulesQuery = query(
+                    modulesRef, 
+                    where('courseId', '==', courseId), 
+                    orderBy('moduleNumber')
+                );
+    
+                const modulesSnapshot = await getDocs(modulesQuery);
+                return modulesSnapshot.docs.map(doc => ({
+                    id: doc.id,
+                    ...doc.data()
+                }));
+            } catch (error) {
+                console.error('Error fetching course modules:', error);
+                return [];
+            }
+        }
+    
+        // Render Course Modules
+        async function renderCourseModules(courseId, userId) {
+            const modulesContainer = document.getElementById('courseModulesContainer');
+            const totalModulesCount = document.getElementById('totalModulesCount');
+            
+            try {
+                const modules = await fetchCourseModules(courseId);
+                totalModulesCount.textContent = modules.length;
+    
+                const progressRef = ref(database, `userProgress/${userId}/courses/${courseId}/completedModules`);
+                const progressSnapshot = await get(progressRef);
+                const completedModules = progressSnapshot.val() || [];
+    
+                if (modules.length === 0) {
+                    modulesContainer.innerHTML = `
+                        <div class="alert alert-info">No modules available for this course.</div>
+                    `;
+                    return;
+                }
+    
+                const modulesHTML = modules.map((module, index) => {
+                    const isPreviousModuleCompleted = 
+                        index === 0 || completedModules.includes(modules[index - 1].id);
+                    const isModuleCompleted = completedModules.includes(module.id);
+    
+                    return `
+                    <div class="card module-card mb-3 ${module.type === 'video' ? 'video-module' : 'quiz-module'} 
+                             ${!isPreviousModuleCompleted ? 'locked' : ''}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h5 class="card-title">Module ${module.moduleNumber}: ${module.title}</h5>
+                                <span class="badge ${module.type === 'video' ? 'bg-primary' : 'bg-success'}">
+                                    ${module.type.toUpperCase()}
+                                    ${!isPreviousModuleCompleted ? '🔒' : ''}
+                                </span>
+                            </div>
+                            <div class="module-content mt-2">
+                                ${isPreviousModuleCompleted ? 
+                                    (module.type === 'video' ? `
+                                        <a href="${module.videoLink}" 
+                                           class="btn btn-outline-primary btn-sm start-video" 
+                                           data-module-id="${module.id}"
+                                           data-module-number="${module.moduleNumber}"
+                                           target="_blank">
+                                            Watch Video
+                                        </a>
+                                    ` : `
+                                        <button class="btn btn-outline-success btn-sm start-quiz 
+                                                       ${!isModuleCompleted ? '' : 'disabled'}" 
+                                                data-module-id="${module.id}"
+                                                data-module-number="${module.moduleNumber}">
+                                            ${!isModuleCompleted ? 'Start Quiz' : 'Completed'}
+                                        </button>
+                                    `) : 
+                                    `<div class="text-warning">Complete previous module to unlock</div>`
+                                }
+                            </div>
+                            <div class="progress module-progress">
+                                <div class="progress-bar" role="progressbar" style="width: ${isModuleCompleted ? '100%' : '0%'};" 
+                                     aria-valuenow="${isModuleCompleted ? 100 : 0}" aria-valuemin="0" aria-valuemax="100">
+                                    ${isModuleCompleted ? 'Completed' : ''}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `}).join('');
+    
+                modulesContainer.innerHTML = modulesHTML;
+    
+                // Attach event listeners for video and quiz modules
+                attachModuleEventListeners(courseId);
+    
+            } catch (error) {
+                console.error('Error rendering course modules:', error);
+                modulesContainer.innerHTML = `
+                    <div class="alert alert-danger">
+                        Failed to load course modules. Please try again later.
+                    </div>
+                `;
+            }
+        }
+    
+        // Attach Event Listeners for Modules
+        function attachModuleEventListeners(courseId) {
+            // Video Module Event Listeners
+            document.querySelectorAll('.start-video').forEach(button => {
+                button.addEventListener('click', async (e) => {
+                    const moduleId = e.target.dataset.moduleId;
+                    const user = auth.currentUser;
+    
+                    try {
+                        const progressRef = ref(database, `userProgress/${user.uid}/courses/${courseId}/completedModules`);
+                        const progressSnapshot = await get(progressRef);
+                        const completedModules = progressSnapshot.val() || [];
+    
+                        if (!completedModules.includes(moduleId)) {
+                            completedModules.push(moduleId);
+                            await update(ref(database, `userProgress/${user.uid}/courses/${courseId}`), {
+                                completedModules: completedModules
+                            });
+    
+                            await trackUserProgress(user.uid, courseId);
+                            await renderCourseModules(courseId, user.uid);
+    
+                            Swal.fire({
+                                title: 'Module Completed!',
+                                text: 'You have completed a module. Continue learning!',
+                                icon: 'success',
+                                confirmButtonText: 'Great!'
+                            });
+    
+                            await checkAndAwardCourseCompletion(user.uid, courseId);
+                        }
+    
+                        window.open(e.target.href, '_blank');
+                    } catch (error) {
+                        console.error('Error completing video module:', error);
+                    }
+    
+                    e.preventDefault();
+                });
+            });
+    
+            // Quiz Module Event Listeners
+            document.querySelectorAll('.start-quiz').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const moduleId = e.target.dataset.moduleId;
+                    const moduleNumber = e.target.dataset.moduleNumber;
+                    loadQuizModule(moduleId, moduleNumber, courseId);
+                });
+            });
+        }
+    
+        // Track User Progress
+        async function trackUserProgress(userId, courseId) {
+            try {
+                const progressRef = ref(database, `userProgress/${userId}/courses/${courseId}`);
+                const progressSnapshot = await get(progressRef);
+                
+                if (progressSnapshot.exists()) {
+                    const progress = progressSnapshot.val();
+                    const completedModules = progress.completedModules || [];
+                    const totalModules = parseInt(document.getElementById('totalModulesCount').textContent);
+                    
+                    const progressPercentage = Math.round((completedModules.length / totalModules) * 100);
+                    const courseProgressBar = document.getElementById('courseProgressBar');
+                    courseProgressBar.style.width = `${progressPercentage}%`;
+                    courseProgressBar.textContent = `${progressPercentage}%`;
+                    courseProgressBar.setAttribute('aria-valuenow', progressPercentage);
+                    
+                    document.getElementById('completedModulesCount').textContent = completedModules.length;
+                }
+            } catch (error) {
+                console.error('Error tracking user progress:', error);
+            }
+        }
+    
+        // Load Quiz Module
+        async function loadQuizModule(moduleId, moduleNumber, courseId) {
+            try {
+                const moduleRef = doc(firestore, 'courseModules', moduleId);
+                const moduleSnap = await getDoc(moduleRef);
+    
+                if (moduleSnap.exists()) {
+                    const moduleData = moduleSnap.data();
+                    
+                    // Implement your quiz modal loading logic here
+                    // This should be similar to the previous implementation
+                    // Make sure to handle quiz submission and module completion
+                }
+            } catch (error) {
+                console.error('Error loading quiz module:', error);
+            }
+        }
+    
+        // Check Course Completion and Award Badge
+        async function checkAndAwardCourseCompletion(userId, courseId) {
+            // Implementation similar to previous script
+        }
+    
+        // Authentication State Change Listener
+        auth.onAuthStateChanged(async (user) => {
+            if (user) {
+                // Get courseId from URL parameter
+                const urlParams = new URLSearchParams(window.location.search);
+                const courseId = urlParams.get('courseId');
+    
+                if (courseId) {
+                    await fetchCourseDetails(courseId);
+                    await renderCourseModules(courseId, user.uid);
+                    await trackUserProgress(user.uid, courseId);
+                } else {
+                    console.error('No course ID provided');
+                }
+            } else {
+                window.location.href = 'login.html';
+            }
+        });
+         class QuizManager {
+            constructor(courseId) {
+                this.courseId = courseId;
+                this.questions = [];
+                this.userAnswers = [];
+                this.modal = document.getElementById('quizModal');
+                this.quizContainer = document.getElementById('quizContainer');
+                this.submitButton = document.getElementById('submitQuizBtn');
+                this.resultDisplay = document.getElementById('quizResult');
+            }
+
+            // Fetch quiz questions from Firebase
+            fetchQuizQuestions() {
+                const quizRef = firebase.database().ref(`Courses/${this.courseId}/quiz`);
+                
+                quizRef.once('value', (snapshot) => {
+                    this.questions = snapshot.val() || [];
+                    this.renderQuiz();
+                }, (error) => {
+                    console.error("Error fetching quiz questions:", error);
+                });
+            }
+
+            // Render quiz questions in the modal
+            renderQuiz() {
+                this.quizContainer.innerHTML = ''; // Clear previous content
+                this.userAnswers = new Array(this.questions.length).fill(null);
+
+                this.questions.forEach((question, index) => {
+                    const questionElement = document.createElement('div');
+                    questionElement.className = 'quiz-question';
+                    questionElement.innerHTML = `
+                        <h4>${question.text}</h4>
+                        <div class="quiz-options">
+                            ${question.options.map((option, optionIndex) => `
+                                <div class="quiz-option" data-question-index="${index}" data-option-index="${optionIndex}">
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    this.quizContainer.appendChild(questionElement);
+                });
+
+                this.attachQuizEventListeners();
+            }
+
+            // Attach event listeners for option selection
+            attachQuizEventListeners() {
+                const options = this.quizContainer.querySelectorAll('.quiz-option');
+                options.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        const questionIndex = e.target.getAttribute('data-question-index');
+                        const optionIndex = e.target.getAttribute('data-option-index');
+
+                        // Remove previous selection for this question
+                        options.forEach(opt => {
+                            if (opt.getAttribute('data-question-index') === questionIndex) {
+                                opt.classList.remove('selected');
+                            }
+                        });
+
+                        // Select current option
+                        e.target.classList.add('selected');
+                        this.userAnswers[questionIndex] = parseInt(optionIndex);
+                    });
+                });
+
+                // Submit quiz event
+                this.submitButton.onclick = () => this.submitQuiz();
+            }
+
+            // Submit and grade the quiz
+            submitQuiz() {
+                if (this.userAnswers.some(answer => answer === null)) {
+                    alert('Please answer all questions before submitting.');
+                    return;
+                }
+
+                let correctAnswers = 0;
+                this.questions.forEach((question, index) => {
+                    if (this.userAnswers[index] === question.correctAnswer) {
+                        correctAnswers++;
+                    }
+                });
+
+                const score = Math.round((correctAnswers / this.questions.length) * 100);
+
+                // Display result
+                this.resultDisplay.innerHTML = `
+                    <p>Your Score: ${score}%</p>
+                    <p>${this.getScoreFeedback(score)}</p>
+                `;
+
+                // Update progress in Firebase
+                this.updateCourseProgress(score);
+            }
+
+            // Get motivational feedback based on score
+            getScoreFeedback(score) {
+                if (score >= 90) return "Excellent! You're a master of the material.";
+                if (score >= 75) return "Great job! You're on the right track.";
+                if (score >= 60) return "Good effort. Keep improving!";
+                return "You might want to review the course material again.";
+            }
+
+            // Update course progress in Firebase
+            updateCourseProgress(score) {
+                const userId = 'YvVunRiMMGMSVhCOEZl5nmzugd53'; // Replace with actual user ID
+                const enrollmentRef = firebase.database().ref(`Enrollments`);
+
+                enrollmentRef.orderByChild('courseInfo/courseId').equalTo(this.courseId)
+                    .once('value', (snapshot) => {
+                        snapshot.forEach((childSnapshot) => {
+                            const key = childSnapshot.key;
+                            const currentProgress = childSnapshot.val().progress.currentProgress || 0;
+                            
+                            // Increase progress based on quiz score
+                            const newProgress = Math.min(100, currentProgress + (score / 2));
+                            
+                            enrollmentRef.child(key).update({
+                                'progress/currentProgress': newProgress,
+                                'progress/lastQuizScore': score
+                            });
+                        });
+                    });
+            }
+
+            // Open quiz modal
+            openQuizModal() {
+                this.modal.style.display = 'block';
+                this.fetchQuizQuestions();
+            }
+
+            // Close quiz modal
+            closeQuizModal() {
+                this.modal.style.display = 'none';
+            }
+        }
+
+        // Example usage for a specific course
+        document.addEventListener('DOMContentLoaded', function() {
+            const startQuizButtons = document.querySelectorAll('.start-quiz-btn');
+            
+            startQuizButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const courseId = this.getAttribute('data-course-id');
+                    const quizManager = new QuizManager(courseId);
+                    quizManager.openQuizModal();
+                });
+            });
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const quizModal = document.getElementById('quizModal');
+                if (event.target === quizModal) {
+                    quizModal.style.display = 'none';
+                }
+            });
+        });
+
+        // Integrate with existing fetchStudentCourses function
+        function fetchStudentCourses(studentId) {
+            const coursesRef = database.ref('Enrollments');
+
+            coursesRef.orderByChild('studentInfo/userId').equalTo(studentId).once('value', 
+                function(snapshot) {
+                    const coursesContainer = document.getElementById('courses-container');
+                    coursesContainer.innerHTML = ''; // Clear previous courses
+
+                    snapshot.forEach(function(childSnapshot) {
+                        const courseData = childSnapshot.val();
+                        
+                        // Create course card (existing code)
+                        const courseCard = document.createElement('div');
+                        courseCard.className = 'course-card animate__animated animate__fadeIn';
+                        
+                        // Add click event to navigate to course page
+                        courseCard.addEventListener('click', () => {
+                            window.location.href = `course-page.html?courseId=${courseData.courseInfo.courseId}&courseName=${encodeURIComponent(courseData.courseInfo.courseName)}`;
+                        });
+
+                        // Add start quiz button
+                        const startQuizBtn = document.createElement('button');
+                        startQuizBtn.className = 'btn btn-success start-quiz-btn';
+                        startQuizBtn.textContent = 'Start Quiz';
+                        startQuizBtn.setAttribute('data-course-id', courseData.courseInfo.courseId);
+                        
+                        courseCard.appendChild(startQuizBtn);
+
+                        // Rest of the existing course card creation code...
+                        coursesContainer.appendChild(courseCard);
+                    });
+                },
+                function(error) {
+                    console.error("Error fetching courses:", error);
+                }
+            );
+        }
+        // Chatbot Functionality
+        const chatbotContainer = document.getElementById('chatbot-container');
+        const chatbotBody = document.getElementById('chatbot-body');
+        const chatbotToggle = document.getElementById('chatbot-toggle');
+        const chatbotMessages = document.getElementById('chatbot-messages');
+        const chatbotInput = document.getElementById('chatbot-input');
+        const chatbotSend = document.getElementById('chatbot-send');
+        const chatbotLanguage = document.getElementById('chatbot-language');
+
+        // Toggle chatbot visibility
+        chatbotToggle.addEventListener('click', () => {
+            if (chatbotBody.style.display === 'none' || chatbotBody.style.display === '') {
+                chatbotBody.style.display = 'block';
+                sendInitialMessage();
+            } else {
+                chatbotBody.style.display = 'none';
+            }
+        });
+
+        // Function to add message to chatbot
+        function addMessage(message, type) {
+            const messageElement = document.createElement('div');
+            messageElement.textContent = message;
+            messageElement.classList.add('chatbot-message', type);
+            chatbotMessages.appendChild(messageElement);
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+        }
+
+        // Send initial welcome message
+        function sendInitialMessage() {
+            const selectedLang = chatbotLanguage.value;
+            
+            fetch('http://127.0.0.1:5000/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: '', lang: selectedLang })
+            })
+            .then(response => response.json())
+            .then(data => {
+                addMessage(data.response, 'bot-message');
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Send message to chatbot
+        function sendMessage() {
+            const message = chatbotInput.value.trim();
+            if (!message) return;
+
+            const selectedLang = chatbotLanguage.value;
+
+            // Display user message
+            addMessage(message, 'user-message');
+            chatbotInput.value = '';
+
+            // Send to backend
+            fetch('http://127.0.0.1:5000/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: message, lang: selectedLang })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display bot response
+                addMessage(data.response, 'bot-message');
+                
+                // Display suggested tags if any
+                if (data.suggested_tags && data.suggested_tags.length > 0) {
+                    addMessage('Suggested Tags: ' + data.suggested_tags.join(', '), 'bot-message');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Event Listeners
+        chatbotSend.addEventListener('click', sendMessage);
+        
+        // Allow sending message with Enter key
+        chatbotInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Language change event
+        chatbotLanguage.addEventListener('change', sendInitialMessage);
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

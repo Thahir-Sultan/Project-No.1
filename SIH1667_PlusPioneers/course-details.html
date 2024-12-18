@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Details - Career Craft</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Firebase SDK -->
+    <script type="module" src="./firebase-config.js"></script>
+
+    <style>
+        /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        .nav-link.active {
+            color: #fd7e14;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+        .footer {
+            background: #181515;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        .course-details-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .course-header {
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #fd7e14;
+            padding-bottom: 1rem;
+        }
+
+        .course-content {
+            line-height: 1.6;
+        }
+
+        .back-button {
+            margin-bottom: 1rem;
+        }
+
+        .enroll-section {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active pt-3">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" onclick="AuthManager.logout()" class="nav-link active pt-3">Logout</a>
+                    </li>
+                </ul>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="back-button">
+            <button onclick="window.location.href='course%20library.html'" class="btn btn-outline-secondary">
+                ← Back to Course Library
+            </button>
+        </div>
+        
+        <div id="courseDetailsContainer" class="course-details-container">
+            <!-- Course details will be dynamically loaded here -->
+        </div>
+        
+        <div id="enrollSection" class="enroll-section text-center">
+            <h3>Interested in this Course?</h3>
+            <button id="enrollButton" class="btn btn-primary">Enroll Now</button>
+            <div id="enrollmentMessage"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+    <!-- Course Details Script -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getDatabase, ref, push, set, get, child, update, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.firebasestorage.app",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+            measurementId: "G-YND0YL7Y94"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+
+        // Course Enrollment Function
+async function enrollInCourse(course) {
+    const enrollButton = document.getElementById('enrollButton');
+    const enrollmentMessage = document.getElementById('enrollmentMessage');
+
+    enrollButton.disabled = true;
+    enrollmentMessage.innerHTML = '';
+
+    try {
+        const user = auth.currentUser;
+        if (!user) {
+            throw new Error('Please log in to enroll in a course');
+        }
+
+        if (!course.id) {
+            throw new Error('Course ID is missing. Unable to enroll.');
+        }
+
+        const alreadyEnrolled = await checkEnrollmentStatus(user.uid, course.id);
+        if (alreadyEnrolled) {
+            throw new Error('You are already enrolled in this course');
+        }
+
+        const enrollmentData = {
+            enrollmentDetails: {
+                enrollmentId: push(ref(database, 'Enrollments')).key,
+                studentId: user.uid,
+                courseId: course.id,
+                enrollmentDate: serverTimestamp(),
+                status: 'active'
+            },
+            studentInfo: {
+                userId: user.uid,
+                email: user.email,
+                displayName: user.displayName || 'Student'
+            },
+            courseInfo: {
+                courseId: course.id,
+                courseName: course.name,
+                category: course.category,
+                level: course.level,
+                duration: course.duration
+            },
+            progress: {
+                currentProgress: 0,
+                completedModules: [],
+                lastAccessedModule: null,
+                startDate: serverTimestamp()
+            }
+        };
+
+        const updates = {};
+        updates[`Enrollments/${enrollmentData.enrollmentDetails.enrollmentId}`] = enrollmentData;
+        updates[`Users/${user.uid}/enrolledCourses/${course.id}`] = {
+            courseId: course.id,
+            enrollmentId: enrollmentData.enrollmentDetails.enrollmentId,
+            enrollmentDate: enrollmentData.enrollmentDetails.enrollmentDate
+        };
+        updates[`Courses/${course.id}/enrolledStudents/${user.uid}`] = {
+            studentId: user.uid,
+            enrollmentId: enrollmentData.enrollmentDetails.enrollmentId,
+            enrollmentDate: enrollmentData.enrollmentDetails.enrollmentDate
+        };
+
+        await update(ref(database), updates);
+
+        // Redirect to course-page.html with course ID
+        window.location.href = `course-page.html?courseId=${course.id}&enrollmentId=${enrollmentData.enrollmentDetails.enrollmentId}`;
+
+    } catch (error) {
+        console.error('Enrollment error:', error);
+        enrollmentMessage.innerHTML = `
+            <div class="alert alert-danger">
+                Enrollment Failed: ${error.message}
+            </div>
+        `;
+        enrollButton.disabled = false;
+    }
+}
+
+// Check Enrollment Status
+async function checkEnrollmentStatus(studentId, courseId) {
+    const dbRef = ref(database);
+    try {
+        const snapshot = await get(child(dbRef, `Users/${studentId}/enrolledCourses/${courseId}`));
+        return snapshot.exists();
+    } catch (error) {
+        console.error("Error checking enrollment:", error);
+        return false;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Get course ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const courseId = urlParams.get('courseId');
+
+    if (!courseId) {
+        // Handle case where no course ID is provided
+        document.getElementById('courseDetailsContainer').innerHTML = `
+            <div class="alert alert-danger">
+                No course selected. Please select a course from the Course Library.
+            </div>
+        `;
+        return;
+    }
+
+    try {
+        // Fetch course details from Firebase
+        const dbRef = ref(database, `courses/${courseId}`);
+        const snapshot = await get(dbRef);
+
+        if (snapshot.exists()) {
+            const course = snapshot.val();
+            course.id = courseId; // Add the ID to the course object
+
+            const detailsContainer = document.getElementById('courseDetailsContainer');
+            
+            // Render course details
+            detailsContainer.innerHTML = `
+                <div class="course-header">
+                    <h1 class="display-5">${course.name}</h1>
+                    <p class="text-muted">${course.category} | ${course.level} Level</p>
+                </div>
+                <div class="course-content">
+                    <h3>Course Description</h3>
+                    <p>${course.description}</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <h4>Course Details</h4>
+                            <ul class="list-unstyled">
+                                <li><strong>Duration:</strong> ${course.duration}</li>
+                                <li><strong>Instructor:</strong> ${course.instructor || 'Not specified'}</li>
+                                <li><strong>Tags:</strong> ${(course.tags || []).join(', ') || 'No tags'}</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Additional Information</h4>
+                            <p>${course.additionalInfo || 'No additional information available.'}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Setup enrollment button
+            const enrollButton = document.getElementById('enrollButton');
+            enrollButton.addEventListener('click', () => enrollInCourse(course));
+
+        } else {
+            // Handle course not found
+            document.getElementById('courseDetailsContainer').innerHTML = `
+                <div class="alert alert-danger">
+                    Course not found. The course may have been removed or does not exist.
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Error fetching course details:', error);
+        document.getElementById('courseDetailsContainer').innerHTML = `
+            <div class="alert alert-danger">
+                Error loading course details. Please try again later.
+            </div>
+        `;
+    }
+});    
+</script>
+</body>
+</html>

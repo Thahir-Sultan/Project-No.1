@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Gold Badge</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+            --silver:#C0C0C0;
+        }
+        
+        body {
+            background-color: #000;
+            color: #fff;
+        }
+        /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        /* Navigation Styles */
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        .nav-link.active {
+            color: #fd7e14;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        /* Profile Image */
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            transition: transform 0.3s ease;
+            height: 50px;
+            width: 50px;
+        }
+
+        .badge-container {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .silver-badge {
+            width: 150px;
+            height: 150px;
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+            100% { filter: brightness(1); }
+        }
+        
+        .badge-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--silver);
+        }
+        
+        .badge-label {
+            margin-top: 1rem;
+            font-size: 1.5rem;
+            color: var(--silver);
+        }
+        
+        .course-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.1);
+        }
+        
+        .course-image {
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        
+        .criteria-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .criteria-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .requirements-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .requirements-list li {
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .requirements-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--silver);
+        }
+        
+        footer {
+            background: #181515;
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .course-btn {
+            background-color: var(--silver);
+            color: #000;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .course-btn:hover {
+            transform: scale(1.05);
+            background-color: #C0C0C0;
+        }
+
+        @media (max-width: 768px) {
+            .course-card {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .course-image {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+        /* Chatbot Styles */
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            z-index: 1000;
+        }
+
+        #chatbot-header {
+            background-color: var(--primary-orange);
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #chatbot-body {
+            display: none;
+            height: 400px;
+            background-color: #f9f9f9;
+        }
+
+        #chatbot-messages {
+            height: 330px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        #chatbot-input-area {
+            display: flex;
+            padding: 10px;
+            background-color: white;
+        }
+
+        #chatbot-input {
+            flex-grow: 1;
+            margin-right: 10px;
+            padding: 5px;
+        }
+
+        #chatbot-send {
+            background-color: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .chatbot-message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+        }
+
+        .user-message {
+            background-color: #e6f2ff;
+            text-align: right;
+        }
+
+        .bot-message {
+            background-color: #f0f0f0;
+            text-align: left;
+        }
+
+        #chatbot-toggle {
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Mobile Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active pt-3">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="student%20dashboard.html" class="nav-link">Student<br>Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="course%20library.html" class="nav-link">Course<br>Library</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="skills.html" class="nav-link">Skills &<br> Badges</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" onclick="AuthManager.logout()" class="nav-link active pt-3">Logout</a>
+                    </li>
+                </ul>
+                <!-- Profile Picture -->
+                <div class="ms-3">
+                    <a href="Profile.html"><img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" alt="Profile" class="rounded-circle profile-img"></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+        <!-- Main Content -->
+        <div class="container py-5">
+            <!-- Badge Section - Updated for Silver Badge -->
+            <div class="badge-container animate_animated animate_fadeIn">
+                <svg class="silver-badge" viewBox="0 0 200 200">
+                    <circle cx="100" cy="100" r="80" fill="#C0C0C0" />
+                    <text x="100" y="115" text-anchor="middle" fill="#000" font-size="48">3</text>
+                </svg>
+                <h2 class="badge-label animate_animated animate_fadeIn">Silver</h2>
+            </div>
+    
+            <!-- The rest of the content remains the same as the original file -->
+            <div class="course-card animate_animated animate_fadeInUp">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/Python%20for%20beginners%203.png?raw=true" alt="Python Programming" class="course-image">
+                <div class="course-content">
+                    <h3>Python For Beginners</h3>
+                    <p>Learn the basics of python to unlock your potential at coding.</p>
+                    <button class="course-btn" onclick="window.location.href='course-details.html'">
+                        View Course
+                    </button>
+                </div>
+            </div>
+    
+            <div class="course-card animate_animated animate_fadeInUp">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/AI%20for%20beginners%204.png?raw=true" alt="Python Programming" class="course-image">
+                <div class="course-content">
+                    <h3>AI For Beginners</h3>
+                    <p>Learn the basics of AI to unlock your potential at artificial intelligence.</p>
+                    <button class="course-btn" onclick="window.location.href='course-details.html'">
+                        View Course
+                    </button>
+                </div>
+            </div>
+    
+            <div class="course-card animate_animated animate_fadeInUp">
+                <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Course%20Library/Ui%20ux%206.png?raw=true" alt="Python Programming" class="course-image">
+                <div class="course-content">
+                    <h3>UI/UX Design For Beginners</h3>
+                    <p>Learn the basics of Ui/Ux Design to unlock your potential at Designing feild.</p>
+                    <button class="course-btn" onclick="window.location.href='course-details.html'">
+                        View Course
+                    </button>
+                </div>
+            </div>
+    
+            <!-- Criteria Card - Updated for Silver Badge -->
+            <div class="criteria-card animate_animated animate_fadeInUp">
+                <h3>Badge Criteria:</h3>
+                <h4 class="mt-4">2Silver Badge</h4>
+                
+                <div class="mt-4">
+                    <h5>Awarded For: <span class="text-light">Good understanding and consistent effort.</span></h5>
+                </div>
+                
+                <div class="mt-4">
+                    <h5>Requirements:</h5>
+                    <ul class="requirements-list">
+                        <li>Complete at least 80% of the course content.</li>
+                        <li>Score between 70%-84% in quizzes, assignments, and assessments.</li>
+                        <li>Actively participate in two or more discussions or peer interactions.</li>
+                        <li>Submit any mandatory projects or assignments.</li>
+                    </ul>
+                </div>
+                
+                <div class="mt-4">
+                    <h5>Objective:</h5>
+                    <p>Rewards students for consistent engagement and solid comprehension of the course material.</p>
+                </div>
+            </div>
+        </div>
+        <div id="chatbot-container">
+            <div id="chatbot-header">
+                <span>Course Chatbot</span>
+                <span id="chatbot-toggle">🤖</span>
+            </div>
+            <div id="chatbot-body">
+                <div id="chatbot-messages"></div>
+                <div id="chatbot-input-area">
+                    <select id="chatbot-language">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="ta">Tamil</option>
+                        <option value="te">Telugu</option>
+                        <option value="ml">Malayalam</option>
+                    </select>
+                    <input type="text" id="chatbot-input" placeholder="Ask a question...">
+                    <button id="chatbot-send">Send</button>
+                </div>
+            </div>
+        </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" onclick="navigateTo(PATHS.support)" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.contact)" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.about)" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

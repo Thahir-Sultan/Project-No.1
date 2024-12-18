@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Instructor Signup</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        body { 
+            background-color: #f4f6f9; 
+            font-family: 'Arial', sans-serif;
+        }
+        .form-container { 
+            background-color: white; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        .brand-orange { color: #FF6B35; }
+        .brand-green { color: #4ECB71; }
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
+        }
+        .signup-section {
+            display: none;
+        }
+        .signup-section.active {
+            display: block;
+        }
+        .progress {
+            height: 5px;
+            margin-bottom: 20px;
+        }
+        .file-upload-container {
+            border: 2px dashed #ddd;
+            padding: 20px;
+            text-align: center;
+        }
+        .is-invalid {
+            border-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Instructor Signup</h3>
+            
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+            <form id="instructor-signup-form">
+                <!-- Section 1: Basic Personal Information -->
+                <div id="section-1" class="signup-section active">
+                    <h4>1. Basic Personal Information</h4>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="full-name" class="form-label">Full Name</label>
+                            <input type="text" class="form-control" id="full-name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email Address</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label">Phone Number (Optional)</label>
+                            <input type="tel" class="form-control" id="phone">
+                        </div>
+                        
+                    </div>
+                    <button type="button" class="btn btn-primary next-section">Next</button>
+                </div>
+
+                <!-- Section 2: Professional Credentials -->
+                <div id="section-2" class="signup-section">
+                    <h4>2. Professional Credentials</h4>
+                    <div class="mb-3">
+                        <label for="qualifications" class="form-label">Qualifications</label>
+                        <textarea class="form-control" id="qualifications" rows="3" required placeholder="Degrees, certifications, educational background"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="work-experience" class="form-label">Work Experience</label>
+                        <textarea class="form-control" id="work-experience" rows="3" required placeholder="Teaching experience, professional roles"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="skills" class="form-label">Skills/Expertise</label>
+                        <input type="text" class="form-control" id="skills" required placeholder="E.g., Data Science, Physics, Career Coaching">
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary prev-section">Previous</button>
+                        <button type="button" class="btn btn-primary next-section">Next</button>
+                    </div>
+                </div>
+
+                <!-- Section 3: Course-Related Information -->
+                <div id="section-3" class="signup-section">
+                    <h4>3. Course-Related Information</h4>
+                    <div class="mb-3">
+                        <label for="subjects" class="form-label">Subject(s) of Interest</label>
+                        <input type="text" class="form-control" id="subjects" required placeholder="Topics you wish to teach">
+                    </div>
+                    <div class="mb-3">
+                        <label for="student-level" class="form-label">Preferred Student Level</label>
+                        <select multiple class="form-select" id="student-level" required>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                            <option value="grade-9-12">Grade 9-12</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Course Formats</label>
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="live" id="format-live">
+                                <label class="form-check-label" for="format-live">Live Sessions</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="recorded" id="format-recorded">
+                                <label class="form-check-label" for="format-recorded">Recorded Lessons</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="blended" id="format-blended">
+                                <label class="form-check-label" for="format-blended">Blended Courses</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary prev-section">Previous</button>
+                        <button type="button" class="btn btn-primary next-section">Next</button>
+                    </div>
+                </div>
+
+                <!-- Section 4: Account Credentials -->
+                <div id="section-4" class="signup-section">
+                    <h4>4. Account Credentials</h4>
+                    <div class="mb-3">
+                        <label for="signup-password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="signup-password" required minlength="6">
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirm-password" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm-password" required minlength="6">
+                    </div>
+                    <div id="error-message" class="alert alert-danger d-none"></div>
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary prev-section">Previous</button>
+                        <button type="submit" class="btn btn-success">Complete Signup</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Firebase Scripts (ES6 Module Import) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.firebasestorage.app",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+            measurementId: "G-YND0YL7Y94"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+    
+        // Multi-step form navigation
+        const sections = document.querySelectorAll('.signup-section');
+        const progressBar = document.querySelector('.progress-bar');
+        let currentSection = 0;
+    
+        function updateProgressBar() {
+            const progress = (currentSection / (sections.length - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+            progressBar.setAttribute('aria-valuenow', progress);
+        }
+    
+        document.querySelectorAll('.next-section').forEach(button => {
+            button.addEventListener('click', function() {
+                if (validateCurrentSection()) {
+                    sections[currentSection].classList.remove('active');
+                    currentSection++;
+                    sections[currentSection].classList.add('active');
+                    updateProgressBar();
+                }
+            });
+        });
+    
+        document.querySelectorAll('.prev-section').forEach(button => {
+            button.addEventListener('click', function() {
+                sections[currentSection].classList.remove('active');
+                currentSection--;
+                sections[currentSection].classList.add('active');
+                updateProgressBar();
+            });
+        });
+    
+        function validateCurrentSection() {
+            const currentSectionElement = sections[currentSection];
+            const requiredInputs = currentSectionElement.querySelectorAll('[required]');
+            let isValid = true;
+    
+            requiredInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    input.classList.add('is-invalid');
+                    isValid = false;
+                } else {
+                    input.classList.remove('is-invalid');
+                }
+            });
+    
+            // Additional password validation in the last section
+            if (currentSection === sections.length - 1) {
+                const password = document.getElementById('signup-password');
+                const confirmPassword = document.getElementById('confirm-password');
+                
+                if (password.value !== confirmPassword.value) {
+                    confirmPassword.classList.add('is-invalid');
+                    return false;
+                }
+            }
+    
+            return isValid;
+        }
+    
+        document.getElementById('instructor-signup-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('signup-password').value;
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.classList.add('d-none');
+    
+            try {
+                // Create user with Firebase Authentication
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+    
+                // Prepare instructor details for database
+                const instructorDetails = {
+                    email: email,
+                    basicInfo: {
+                        fullName: document.getElementById('full-name').value,
+                        phone: document.getElementById('phone').value || null
+                    },
+                    professionalCredentials: {
+                        qualifications: document.getElementById('qualifications').value,
+                        workExperience: document.getElementById('work-experience').value,
+                        skills: document.getElementById('skills').value
+                    },
+                    courseInfo: {
+                        subjects: document.getElementById('subjects').value,
+                        studentLevels: Array.from(document.getElementById('student-level').selectedOptions).map(opt => opt.value),
+                        courseFormats: [
+                            document.getElementById('format-live').checked && 'Live Sessions',
+                            document.getElementById('format-recorded').checked && 'Recorded Lessons',
+                            document.getElementById('format-blended').checked && 'Blended Courses'
+                        ].filter(Boolean)
+                    }
+                };
+    
+                // Save instructor details to Firebase Realtime Database
+                await set(ref(database, 'Instructor/' + user.uid), instructorDetails);
+    
+                // Redirect to instructor dashboard
+                window.location.href = 'instructor-dashboard.html';
+    
+            } catch (error) {
+                console.error("Signup Error:", error);
+                
+                // Handle specific Firebase authentication errors
+                let errorText = "An error occurred during signup.";
+                switch (error.code) {
+                    case 'auth/email-already-in-use':
+                        errorText = "This email is already registered. Please use a different email.";
+                        break;
+                    case 'auth/invalid-email':
+                        errorText = "Invalid email address format.";
+                        break;
+                    case 'auth/weak-password':
+                        errorText = "Password is too weak. Please choose a stronger password.";
+                        break;
+                }
+    
+                errorMessage.textContent = errorText;
+                errorMessage.classList.remove('d-none');
+            }
+        });
+    </script>
+</body>
+</html>

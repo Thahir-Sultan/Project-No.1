@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Edit Courses</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .navbar {
+            background-color: #000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand img {
+            height: 40px;
+        }
+
+        .nav-link {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-orange);
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+
+        .sidebar {
+            height: 100vh;
+            background-color: #002B3D;
+            color: white;
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            transition: left 0.3s ease;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .course-list-item {
+            transition: background-color 0.3s ease;
+        }
+
+        .course-list-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <!-- Hamburger Menu -->
+            <button id="sidebarToggle" class="btn btn-outline-light me-3">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="instructor-dashboard.html" class="nav-link pt-3">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="instructor-course-management.html" class="nav-link">Course<br>Management</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="instructor-login.html" onclick="AuthManager.logout()" class="nav-link pt-3">Logout</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="ms-3">
+                <a href="instructor-profile.html">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" 
+                         alt="Profile" class="rounded-circle profile-img">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="list-group">
+            <a href="instructor-dashboard.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+            <a href="instructor-course-management.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-book me-2"></i>Course Management
+            </a>
+            <a href="student-interaction.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-users me-2"></i>Student Interaction
+            </a>
+            <a href="earnings.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-dollar-sign me-2"></i>Earnings and Payments
+            </a>
+            <a href="certification.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-certificate me-2"></i>Certification Management
+            </a>
+            <a href="profile-management.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-user me-2"></i>Profile Management
+            </a>
+            <a href="support.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-question-circle me-2"></i>Help & Support
+            </a>
+            <a href="settings.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-cog me-2"></i>Settings
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="d-flex justify-content-between align-items-center">
+                    My Courses
+                    <a href="instructor-course-management.html" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-arrow-left"></i> Back to Course Management
+                    </a>
+                </h4>
+            </div>
+            <div class="card-body">
+                <div id="courseListContainer">
+                    <!-- Courses will be dynamically populated here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Course Modal -->
+<div class="modal fade" id="editCourseModal" tabindex="-1" aria-labelledby="editCourseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCourseModalLabel">Edit Course</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editCourseForm">
+                    <input type="hidden" id="editCourseId">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editCourseName" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="editCourseName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCourseCategory" class="form-label">Category</label>
+                            <select class="form-select" id="editCourseCategory" required>
+                                <option value="">Select Field</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Commerce">Commerce</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editSkillLevel" class="form-label">Skill Level</label>
+                            <select class="form-select" id="editSkillLevel" required>
+                                <option value="">Select Level</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCourseDuration" class="form-label">Course Duration</label>
+                            <input type="text" class="form-control" id="editCourseDuration" required>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="editCourseDescription" class="form-label">Course Description</label>
+                            <textarea class="form-control" id="editCourseDescription" rows="3" required></textarea>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="editCourseVideoLink" class="form-label">Course Introduction Video (YouTube Link)</label>
+                            <input type="url" class="form-control" id="editCourseVideoLink" 
+                                   pattern="^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$" 
+                                   placeholder="Paste YouTube video link" required>
+                        </div>
+                        <!-- Tag Suggestions and Selected Tags sections -->
+                        <div class="col-12 mb-3">
+                            <div class="card border-light">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-tags me-2 text-primary"></i>Tag Suggestions
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="editTagSuggestions" class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-secondary">No suggestions yet</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <div class="card border-light">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-check-circle me-2 text-success"></i>Selected Tags
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="editSelectedTags" class="d-flex flex-wrap gap-2">
+                                        <small class="text-muted">No tags selected</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="saveEditCourseBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" 
+                         alt="Government Logo" class="mb-3">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Firebase Configuration and Realtime Database Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getDatabase, ref, push, set, onValue, query, orderByChild, equalTo, remove, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+    authDomain: "career-craft-1667.firebaseapp.com",
+    databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "career-craft-1667",
+    storageBucket: "career-craft-1667.firebasestorage.app",
+    messagingSenderId: "616676439535",
+    appId: "1:616676439535:web:2019ad5c6d122728c6721a"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+
+// Function to get instructor details from localStorage
+function getInstructorDetails() {
+    const storedDetails = localStorage.getItem('instructorDetails');
+    return storedDetails ? JSON.parse(storedDetails) : null;
+}
+
+// Load Instructor's Courses
+function loadInstructorCourses() {
+    const instructorDetails = getInstructorDetails();
+    if (!instructorDetails) {
+        alert('Please log in to view courses');
+        return;
+    }
+    const coursesRef = ref(db, 'courses');
+    const instructorCoursesQuery = query(
+        coursesRef, 
+        orderByChild('instructorUid'), 
+        equalTo(instructorDetails.uid)
+    );
+    onValue(instructorCoursesQuery, (snapshot) => {
+        const courseListContainer = document.getElementById('courseListContainer');
+        courseListContainer.innerHTML = ''; // Clear previous courses
+        if (snapshot.exists()) {
+            snapshot.forEach((childSnapshot) => {
+                const courseData = childSnapshot.val();
+                const courseId = childSnapshot.key;
+                const courseElement = document.createElement('div');
+                courseElement.classList.add('card', 'mb-3', 'course-list-item');
+                courseElement.innerHTML = `
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <div>
+                        <h5 class="card-title">${courseData.name}</h5>
+                        <p class="card-text text-muted">${courseData.category} | ${courseData.level}</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-sm me-2 edit-course" data-course-id="${courseId}">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                        <button class="btn btn-danger btn-sm delete-course" data-course-id="${courseId}">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+                `;
+                courseListContainer.appendChild(courseElement);
+                
+                // Add event listeners for edit and delete buttons
+                courseElement.querySelector('.edit-course').addEventListener('click', () => openEditCourseModal(courseId, courseData));
+                courseElement.querySelector('.delete-course').addEventListener('click', () => deleteCourse(courseId));
+            });
+        } else {
+            courseListContainer.innerHTML = `
+            <div class="alert alert-info text-center">
+                No courses found. Start by creating your first course!
+            </div>
+            `;
+        }
+    });
+}
+
+// Open Edit Course Modal
+function openEditCourseModal(courseId, courseData) {
+    // Populate modal with existing course data
+    document.getElementById('editCourseId').value = courseId;
+    document.getElementById('editCourseName').value = courseData.name;
+    document.getElementById('editCourseCategory').value = courseData.category;
+    document.getElementById('editSkillLevel').value = courseData.level;
+    document.getElementById('editCourseDuration').value = courseData.duration;
+    document.getElementById('editCourseDescription').value = courseData.description;
+    document.getElementById('editCourseVideoLink').value = courseData.videoLink;
+
+    // Populate tag suggestions and selected tags
+    const tagSuggestionsContainer = document.getElementById('editTagSuggestions');
+    const selectedTagsContainer = document.getElementById('editSelectedTags');
+
+    // Clear previous suggestions and selected tags
+    tagSuggestionsContainer.innerHTML = '';
+    selectedTagsContainer.innerHTML = '';
+
+    // Generate tag suggestions based on course description
+    const keywords = extractKeywords(preprocessText(courseData.description));
+    const matchedTags = getPossibleTags(keywords);
+
+    // Display tag suggestions
+    matchedTags.forEach(tag => {
+        const tagElement = document.createElement('span');
+        tagElement.classList.add('badge', 'bg-primary', 'tag-suggestion');
+        tagElement.textContent = tag.name;
+        tagElement.onclick = () => selectEditTag(tag);
+        tagSuggestionsContainer.appendChild(tagElement);
+    });
+
+    // Display existing selected tags
+    if (courseData.tags && courseData.tags.length > 0) {
+        courseData.tags.forEach(tagName => {
+            const tagElement = document.createElement('div');
+            tagElement.classList.add('badge', 'bg-success', 'selected-tag');
+            tagElement.innerHTML = `
+                ${tagName} 
+                <span class="remove-tag ms-2">&times;</span>
+            `;
+            
+            tagElement.querySelector('.remove-tag').onclick = () => {
+                tagElement.remove();
+            };
+
+            selectedTagsContainer.appendChild(tagElement);
+        });
+    } else {
+        selectedTagsContainer.innerHTML = '<small class="text-muted">No tags selected</small>';
+    }
+
+    // Show the modal
+    const editCourseModal = new bootstrap.Modal(document.getElementById('editCourseModal'));
+    editCourseModal.show();
+}
+
+// Function to select tag in edit modal
+function selectEditTag(tag) {
+    const selectedContainer = document.getElementById('editSelectedTags');
+    
+    // Check if tag already exists
+    const existingTags = Array.from(selectedContainer.querySelectorAll('.selected-tag'))
+        .map(el => el.textContent.trim().replace('×', '').trim());
+    
+    if (existingTags.includes(tag.name)) return;
+
+    // Create tag element with remove capability
+    const tagElement = document.createElement('div');
+    tagElement.classList.add('badge', 'bg-success', 'selected-tag');
+    tagElement.innerHTML = `
+        ${tag.name} 
+        <span class="remove-tag ms-2">&times;</span>
+    `;
+    
+    tagElement.querySelector('.remove-tag').onclick = () => {
+        tagElement.remove();
+    };
+
+    selectedContainer.appendChild(tagElement);
+}
+
+// Save edited course function
+document.getElementById('saveEditCourseBtn').addEventListener('click', () => {
+    const courseId = document.getElementById('editCourseId').value;
+    
+    // Collect selected tags
+    const selectedTagElements = document.querySelectorAll('#editSelectedTags .selected-tag');
+    const selectedTags = Array.from(selectedTagElements).map(tagEl => 
+        tagEl.textContent.trim().replace('×', '').trim()
+    );
+
+    // Prepare updated course data
+    const updatedCourseData = {
+        name: document.getElementById('editCourseName').value,
+        category: document.getElementById('editCourseCategory').value,
+        level: document.getElementById('editSkillLevel').value,
+        duration: document.getElementById('editCourseDuration').value,
+        description: document.getElementById('editCourseDescription').value,
+        videoLink: document.getElementById('editCourseVideoLink').value,
+        tags: selectedTags
+    };
+
+    // Update course in Firebase
+    const courseRef = ref(db, `courses/${courseId}`);
+    update(courseRef, updatedCourseData)
+        .then(() => {
+            alert('Course updated successfully!');
+            const editCourseModal = bootstrap.Modal.getInstance(document.getElementById('editCourseModal'));
+            editCourseModal.hide();
+            loadInstructorCourses(); // Refresh the course list
+        })
+        .catch((error) => {
+            console.error('Error updating course:', error);
+            alert('Failed to update course. Please try again.');
+        });
+});
+
+
+function getPossibleTags(keywords) {
+        // Predefined list of possible tags
+        const allTags = [
+            { name: 'Programming', keywords: ['code', 'programming', 'software', 'develop'] },
+            { name: 'Web Development', keywords: ['web', 'html', 'css', 'javascript', 'frontend'] },
+            { name: 'Data Science', keywords: ['data', 'analysis', 'machine', 'learning', 'algorithm'] },
+            { name: 'Cloud Computing', keywords: ['cloud', 'server', 'network', 'infrastructure'] },
+            { name: 'Machine Learning', keywords: ['machine', 'learning', 'ai', 'intelligence', 'neural'] },
+            { name: 'Cybersecurity', keywords: ['security', 'network', 'protect', 'cyber'] },
+            { name: 'Mobile Development', keywords: ['mobile', 'app', 'android', 'ios', 'smartphone'] },
+            { name: 'Database', keywords: ['database', 'sql', 'query', 'storage', 'data'] },
+            { name: 'Backend Development', keywords: ['backend', 'server', 'api', 'database'] },
+            { name: 'Frontend Development', keywords: ['frontend', 'ui', 'ux', 'design', 'interface'] }
+        ];
+
+        // Find tags that match any of the input keywords
+        return allTags.filter(tag => 
+            tag.keywords.some(tagKeyword => 
+                keywords.some(keyword => keyword.includes(tagKeyword))
+            )
+        );
+    }
+
+    // Existing utility functions
+    function preprocessText(text) {
+        // Convert to lowercase and remove special characters
+        return text.toLowerCase().replace(/[^a-zA-Z\s]/g, '');
+    }
+
+    function extractKeywords(text) {
+        const stopWords = new Set([
+            'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'
+        ]);
+
+        // Split text into words, filter out stop words and short words
+        return text.split(/\s+/)
+            .filter(word => word.length > 2 && !stopWords.has(word))
+            .slice(0, 10);  // Limit to 10 keywords
+    }
+
+
+// Delete Course Function
+function deleteCourse(courseId) {
+    if (confirm('Are you sure you want to delete this course? This action cannot be undone.')) {
+        const courseRef = ref(db, `courses/${courseId}`);
+        remove(courseRef)
+            .then(() => {
+                alert('Course deleted successfully!');
+                loadInstructorCourses(); // Refresh the course list
+            })
+            .catch((error) => {
+                console.error('Error deleting course:', error);
+                alert('Failed to delete course. Please try again.');
+            });
+    }
+}
+
+// Call load courses when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    loadInstructorCourses();
+});
+// Sidebar Toggle
+const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
+        

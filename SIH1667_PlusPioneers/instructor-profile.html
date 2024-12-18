@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Instructor Profile</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
+    <style>
+        /* Brand Colors */
+        .brand-orange {
+            color: #fd7e14;
+        }
+        .brand-green {
+            color: #198754;
+        }
+        /* Navigation Styles */
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        .navbar-brand img {
+            height: 40px;
+        }
+        
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-orange) !important;
+        }
+        
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .navbar {
+            background-color: #000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            color: #ffffff;
+            font-weight: 500;
+
+            transition: color 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #fd7e14;
+        }
+        .nav-link.active {
+            color: #ffffff;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            text-decoration: none;
+        }
+        /* Profile Image */
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+        .profile-img {
+            width: 200px;
+            height: 200px;
+            transition: transform 0.3s ease;
+            height: 50px;
+            width: 50px;
+        }
+
+        .sidebar {
+            height: 100vh;
+            background-color: #002B3D;
+            color: white;
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            transition: left 0.3s ease;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        .dashboard-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
+        }
+
+        body { 
+            background-color: #f4f6f9; 
+            font-family: 'Arial', sans-serif;
+        }
+        .profile-container { 
+            background-color: white; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+        .brand-orange { color: #FF6B35; }
+        .brand-green { color: #4ECB71; }
+        .profile-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        #loading-spinner {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+        #error-message {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <!-- Hamburger Menu -->
+            <button id="sidebarToggle" class="btn btn-outline-dark me-3">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="instructor-dashboard.html" class="nav-link pt-3">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="instructor-course-management.html" class="nav-link">Course<br>Management</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="instructor-login.html" onclick="AuthManager.logout()" class="nav-link pt-3">Logout</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="ms-3">
+                <a href="instructor-profile.html">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" 
+                         alt="Profile" class="rounded-circle profile-img">
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="profile-container">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">Instructor Profile</h3>
+
+            <div id="loading-spinner" class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+
+            <div id="error-message" class="alert alert-danger"></div>
+
+            <div id="profile-content" style="display: none;">
+                <div class="profile-section">
+                    <h4>Basic Information</h4>
+                    <p><strong>Full Name:</strong> <span id="profile-full-name"></span></p>
+                    <p><strong>Email:</strong> <span id="profile-email"></span></p>
+                    <p><strong>Phone:</strong> <span id="profile-phone"></span></p>
+                </div>
+
+                <div class="profile-section">
+                    <h4>Professional Credentials</h4>
+                    <p><strong>Qualifications:</strong> <span id="profile-qualifications"></span></p>
+                    <p><strong>Work Experience:</strong> <span id="profile-work-experience"></span></p>
+                    <p><strong>Skills/Expertise:</strong> <span id="profile-skills"></span></p>
+                </div>
+
+                <div class="profile-section">
+                    <h4>Course Information</h4>
+                    <p><strong>Subjects of Interest:</strong> <span id="profile-subjects"></span></p>
+                    <p><strong>Preferred Student Levels:</strong> <span id="profile-student-levels"></span></p>
+                    <p><strong>Course Formats:</strong> <span id="profile-course-formats"></span></p>
+                </div>
+
+                <div class="text-center">
+                    <button id="edit-profile-btn" class="btn btn-primary">Edit Profile</button>
+                    <button id="logout-btn" class="btn btn-danger">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="list-group">
+            <a href="instructor-dashboard.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+            <a href="instructor-course-management.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-book me-2"></i>Course Management
+            </a>
+            <a href="student-interaction.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-users me-2"></i>Student Interaction
+            </a>
+            <a href="earnings.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-dollar-sign me-2"></i>Earnings and Payments
+            </a>
+            <a href="certification.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-certificate me-2"></i>Certification Management
+            </a>
+            <a href="profile-management.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-user me-2"></i>Profile Management
+            </a>
+            <a href="support.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-question-circle me-2"></i>Help & Support
+            </a>
+            <a href="settings.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-cog me-2"></i>Settings
+            </a>
+        </div>
+    </div>
+    <!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="editProfileModalLabel">
+                    <i class="fas fa-user-edit me-2"></i>Edit Instructor Profile
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-profile-form">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit-full-name" class="form-label">
+                                <i class="fas fa-user me-2"></i>Full Name
+                            </label>
+                            <input type="text" class="form-control" id="edit-full-name" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit-phone" class="form-label">
+                                <i class="fas fa-phone me-2"></i>Phone Number
+                            </label>
+                            <input type="tel" class="form-control" id="edit-phone" pattern="[0-9]{10}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit-qualifications" class="form-label">
+                            <i class="fas fa-graduation-cap me-2"></i>Qualifications
+                        </label>
+                        <textarea class="form-control" id="edit-qualifications" rows="3" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit-work-experience" class="form-label">
+                            <i class="fas fa-briefcase me-2"></i>Work Experience
+                        </label>
+                        <textarea class="form-control" id="edit-work-experience" rows="3" required></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="edit-skills" class="form-label">
+                                <i class="fas fa-tools me-2"></i>Skills/Expertise
+                            </label>
+                            <input type="text" class="form-control" id="edit-skills" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="edit-subjects" class="form-label">
+                                <i class="fas fa-book me-2"></i>Subjects of Interest
+                            </label>
+                            <input type="text" class="form-control" id="edit-subjects" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-users me-2"></i>Preferred Student Levels
+                            </label>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="beginner" id="edit-level-beginner">
+                                        <label class="form-check-label" for="edit-level-beginner">Beginner</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="intermediate" id="edit-level-intermediate">
+                                        <label class="form-check-label" for="edit-level-intermediate">Intermediate</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="advanced" id="edit-level-advanced">
+                                        <label class="form-check-label" for="edit-level-advanced">Advanced</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="grade-9-12" id="edit-level-grade">
+                                        <label class="form-check-label" for="edit-level-grade">Grade 9-12</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-chalkboard me-2"></i>Course Formats
+                            </label>
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="live" id="edit-format-live">
+                                        <label class="form-check-label" for="edit-format-live">Live Sessions</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="recorded" id="edit-format-recorded">
+                                        <label class="form-check-label" for="edit-format-recorded">Recorded Lessons</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="blended" id="edit-format-blended">
+                                        <label class="form-check-label" for="edit-format-blended">Blended Courses</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="edit-error-message" class="alert alert-danger d-none"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Cancel
+                </button>
+                <button type="button" class="btn btn-primary" id="save-profile-changes">
+                    <i class="fas fa-save me-2"></i>Save Changes
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="successToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header bg-success text-white">
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Profile updated successfully!
+        </div>
+    </div>
+</div>
+
+    <!-- Footer (Same as index.html) -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" 
+                         alt="Government Logo" class="mb-3">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Firebase Scripts (ES6 Module Import) -->
+    <script type="module">
+        
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.firebasestorage.app",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+            measurementId: "G-YND0YL7Y94"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        // DOM Elements
+        const loadingSpinner = document.getElementById('loading-spinner');
+        const profileContent = document.getElementById('profile-content');
+        const errorMessage = document.getElementById('error-message');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+
+        // Profile Elements
+        const profileFullName = document.getElementById('profile-full-name');
+        const profileEmail = document.getElementById('profile-email');
+        const profilePhone = document.getElementById('profile-phone');
+        const profileQualifications = document.getElementById('profile-qualifications');
+        const profileWorkExperience = document.getElementById('profile-work-experience');
+        const profileSkills = document.getElementById('profile-skills');
+        const profileSubjects = document.getElementById('profile-subjects');
+        const profileStudentLevels = document.getElementById('profile-student-levels');
+        const profileCourseFormats = document.getElementById('profile-course-formats');
+
+        // Check Authentication State
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, fetch profile data
+                const instructorRef = ref(database, 'Instructor/' + user.uid);
+                
+                onValue(instructorRef, (snapshot) => {
+                    const instructorData = snapshot.val();
+                    
+                    if (instructorData) {
+                        // Populate profile information
+                        profileFullName.textContent = instructorData.basicInfo.fullName || 'N/A';
+                        profileEmail.textContent = user.email || 'N/A';
+                        profilePhone.textContent = instructorData.basicInfo.phone || 'Not provided';
+                        
+                        profileQualifications.textContent = instructorData.professionalCredentials.qualifications || 'N/A';
+                        profileWorkExperience.textContent = instructorData.professionalCredentials.workExperience || 'N/A';
+                        profileSkills.textContent = instructorData.professionalCredentials.skills || 'N/A';
+                        
+                        profileSubjects.textContent = instructorData.courseInfo.subjects || 'N/A';
+                        profileStudentLevels.textContent = instructorData.courseInfo.studentLevels ? 
+                            instructorData.courseInfo.studentLevels.join(', ') : 'N/A';
+                        profileCourseFormats.textContent = instructorData.courseInfo.courseFormats ? 
+                            instructorData.courseInfo.courseFormats.join(', ') : 'N/A';
+                        
+                        // Hide loading spinner, show profile content
+                        loadingSpinner.style.display = 'none';
+                        profileContent.style.display = 'block';
+                    } else {
+                        // No instructor data found
+                        errorMessage.textContent = 'No profile data found.';
+                        errorMessage.style.display = 'block';
+                        loadingSpinner.style.display = 'none';
+                    }
+                }, (error) => {
+                    // Error fetching data
+                    console.error('Error fetching profile data:', error);
+                    errorMessage.textContent = 'Failed to load profile data. Please try again.';
+                    errorMessage.style.display = 'block';
+                    loadingSpinner.style.display = 'none';
+                });
+            } else {
+                // No user is signed in, redirect to login
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Logout functionality
+        logoutBtn.addEventListener('click', () => {
+            signOut(auth).then(() => {
+                // Sign-out successful.
+                window.location.href = 'instructor-login.html';
+            }).catch((error) => {
+                // An error happened.
+                console.error('Logout error:', error);
+                errorMessage.textContent = 'Logout failed. Please try again.';
+                errorMessage.style.display = 'block';
+            });
+        });
+        
+    </script>
+    <script type="module">
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    
+        
+        // DOM Elements
+        const editProfileBtn = document.getElementById('edit-profile-btn');
+        const saveProfileChanges = document.getElementById('save-profile-changes');
+        const editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'));
+        const editErrorMessage = document.getElementById('edit-error-message');
+    
+        // Edit Profile Inputs
+        const editFullName = document.getElementById('edit-full-name');
+        const editPhone = document.getElementById('edit-phone');
+        const editQualifications = document.getElementById('edit-qualifications');
+        const editWorkExperience = document.getElementById('edit-work-experience');
+        const editSkills = document.getElementById('edit-skills');
+        const editSubjects = document.getElementById('edit-subjects');
+    
+        // Checkbox Arrays
+        const studentLevelCheckboxes = ['edit-level-beginner', 'edit-level-intermediate', 'edit-level-advanced', 'edit-level-grade'];
+        const courseFormatCheckboxes = ['edit-format-live', 'edit-format-recorded', 'edit-format-blended'];
+    
+        // Authentication State Listener
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const instructorRef = ref(database, 'Instructor/' + user.uid);
+                
+                // Fetch and Pre-fill Profile Data
+                onValue(instructorRef, (snapshot) => {
+                    const instructorData = snapshot.val();
+                    
+                    if (instructorData) {
+                        // Edit Profile Button Handler
+                        editProfileBtn.addEventListener('click', () => {
+                            // Pre-fill form with existing data
+                            editFullName.value = instructorData.basicInfo?.fullName || '';
+                            editPhone.value = instructorData.basicInfo?.phone || '';
+                            editQualifications.value = instructorData.professionalCredentials?.qualifications || '';
+                            editWorkExperience.value = instructorData.professionalCredentials?.workExperience || '';
+                            editSkills.value = instructorData.professionalCredentials?.skills || '';
+                            editSubjects.value = instructorData.courseInfo?.subjects || '';
+    
+                            // Reset and set checkboxes
+                            studentLevelCheckboxes.forEach(checkboxId => {
+                                const checkbox = document.getElementById(checkboxId);
+                                checkbox.checked = instructorData.courseInfo?.studentLevels?.includes(checkbox.value) || false;
+                            });
+    
+                            courseFormatCheckboxes.forEach(checkboxId => {
+                                const checkbox = document.getElementById(checkboxId);
+                                checkbox.checked = instructorData.courseInfo?.courseFormats?.includes(checkbox.value) || false;
+                            });
+    
+                            // Show the modal
+                            editProfileModal.show();
+                        });
+    
+                        // Save Profile Changes Handler
+                        saveProfileChanges.addEventListener('click', async () => {
+                            try {
+                                // Validate inputs
+                                if (!editFullName.value || !editQualifications.value) {
+                                    throw new Error('Please fill in all required fields');
+                                }
+    
+                                // Collect form data
+                                const updatedInstructorDetails = {
+                                    basicInfo: {
+                                        fullName: editFullName.value,
+                                        phone: editPhone.value || null
+                                    },
+                                    professionalCredentials: {
+                                        qualifications: editQualifications.value,
+                                        workExperience: editWorkExperience.value,
+                                        skills: editSkills.value
+                                    },
+                                    courseInfo: {
+                                        subjects: editSubjects.value,
+                                        studentLevels: studentLevelCheckboxes
+                                            .filter(checkboxId => document.getElementById(checkboxId).checked)
+                                            .map(checkboxId => document.getElementById(checkboxId).value),
+                                        courseFormats: courseFormatCheckboxes
+                                            .filter(checkboxId => document.getElementById(checkboxId).checked)
+                                            .map(checkboxId => document.getElementById(checkboxId).value)
+                                    }
+                                };
+    
+                                // Update database
+                                await update(ref(database, 'Instructor/' + user.uid), updatedInstructorDetails);
+    
+                                // Close modal and show success message
+                                editProfileModal.hide();
+                                
+                                // Optional: Refresh profile display or show toast notification
+                                const toastEl = document.getElementById('successToast');
+                                if (toastEl) {
+                                    const toast = new bootstrap.Toast(toastEl);
+                                    toast.show();
+                                } else {
+                                    alert('Profile updated successfully!');
+                                }
+    
+                            } catch (error) {
+                                console.error('Profile Update Error:', error);
+                                editErrorMessage.textContent = error.message || 'Failed to update profile. Please try again.';
+                                editErrorMessage.classList.remove('d-none');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Create New Course</title>
+    
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .navbar {
+            background-color: #000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+
+        .navbar-brand img {
+            height: 40px;
+        }
+
+
+        .nav-link {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-orange);
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+
+        .sidebar {
+            height: 100vh;
+            background-color: #002B3D;
+            color: white;
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            transition: left 0.3s ease;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+        body {
+            background-color: #f4f4f4;
+        }
+        .tag-suggestion {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+        .tag-suggestion:hover {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        .selected-tag {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+        .remove-tag {
+            cursor: pointer;
+            color: #dc3545;
+            transition: color 0.3s ease;
+        }
+        .remove-tag:hover {
+            color: #a71d2a;
+        }
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (Same as Dashboard) -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <!-- Hamburger Menu -->
+            <button id="sidebarToggle" class="btn btn-outline-light me-3">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="instructor-dashboard.html" class="nav-link pt-3">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="instructor-course-management.html" class="nav-link">Course<br>Management</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="instructor-login.html" onclick="AuthManager.logout()" class="nav-link pt-3">Logout</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="ms-3">
+                <a href="instructor-profile.html">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" 
+                         alt="Profile" class="rounded-circle profile-img">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="list-group">
+            <a href="instructor-dashboard.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+            <a href="instructor-course-management.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-book me-2"></i>Course Management
+            </a>
+            <a href="student-interaction.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-users me-2"></i>Student Interaction
+            </a>
+            <a href="earnings.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-dollar-sign me-2"></i>Earnings and Payments
+            </a>
+            <a href="certification.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-certificate me-2"></i>Certification Management
+            </a>
+            <a href="profile-management.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-user me-2"></i>Profile Management
+            </a>
+            <a href="support.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-question-circle me-2"></i>Help & Support
+            </a>
+            <a href="settings.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-cog me-2"></i>Settings
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <div class="card">
+            <div>
+                <a href="instructor-course-management.html" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Course Management
+                </a>
+            </div>
+            <div class="card-header">
+                <h4>Create New Course</h4>
+            </div>
+            <div class="card-body">
+                <form id="courseCreationForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="courseName" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="courseName" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="courseCategory" class="form-label">Category</label>
+                            <select class="form-select" id="courseCategory" required>
+                                <option value="">Select Field</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Biology">Biology</option>
+                                <option value="Commerce">Commerce</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="skillLevel" class="form-label">Skill Level</label>
+                            <select class="form-select" id="skillLevel" required>
+                                <option value="">Select Level</option>
+                                <option value="Beginner">Beginner</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="courseDuration" class="form-label">Course Duration</label>
+                            <input type="text" class="form-control" id="courseDuration" placeholder="e.g., 4 weeks" required>
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="courseDescription" class="form-label">Course Description</label>
+                            <textarea class="form-control" id="courseDescription" rows="3" required></textarea>
+                        </div>
+                        
+                        <!-- Tag Suggestions Section -->
+                        <div class="col-12 mb-3">
+                            <div class="card border-light">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-tags me-2 text-primary"></i>Tag Suggestions
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="tagSuggestions" class="d-flex flex-wrap gap-2">
+                                        <span class="badge bg-secondary">No suggestions yet</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Selected Tags Section -->
+                        <div class="col-12 mb-3">
+                            <div class="card border-light">
+                                <div class="card-header bg-light">
+                                    <h6 class="mb-0">
+                                        <i class="fas fa-check-circle me-2 text-success"></i>Selected Tags
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="selectedTags" class="d-flex flex-wrap gap-2">
+                                        <small class="text-muted">No tags selected</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="courseVideoLink" class="form-label">Course Introduction Video (YouTube Link)</label>
+                            <input type="url" class="form-control" id="courseVideoLink" 
+                                   pattern="^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$" 
+                                   placeholder="Paste YouTube video link" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Create Course</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Footer (Same as Dashboard) -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" 
+                         alt="Government Logo" class="mb-3">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase and Course Creation Script -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { 
+    getDatabase, 
+    ref as realtimeRef, 
+    set as realtimeSet 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { 
+    getAuth 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+  authDomain: "career-craft-1667.firebaseapp.com",
+  databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "career-craft-1667",
+  storageBucket: "career-craft-1667.firebasestorage.app",
+  messagingSenderId: "616676439535",
+  appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+  measurementId: "G-YND0YL7Y94"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const realtimeDB = getDatabase(app);
+const auth = getAuth(app);
+
+// Constants for lesson types
+const LESSON_TYPES = {
+    VIDEO: 'video',
+    QUIZ: 'quiz'
+};
+
+// Utility Functions
+function getInstructorDetails() {
+    const storedDetails = localStorage.getItem('instructorDetails');
+    return storedDetails ? JSON.parse(storedDetails) : null;
+}
+
+function isValidVideoLink(url) {
+    // Regex for YouTube and Google Drive video links
+    const youtubeRegex = /^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be)\/.+$/;
+    const googleDriveRegex = /^(https?\:\/\/)?(docs\.google\.com\/)(file\/d\/|open\?id=|uc\?id=).+$/;
+    
+    return youtubeRegex.test(url) || googleDriveRegex.test(url);
+}
+
+function getSelectedTags() {
+    const selectedTagElements = document.querySelectorAll('#selectedTags .selected-tag');
+    return Array.from(selectedTagElements).map(tagEl => 
+        tagEl.textContent.trim().replace('×', '').trim()
+    );
+}
+
+// Save course description to Realtime Database
+async function saveCourseDescriptionToRealtimeDB(courseData, courseId) {
+    try {
+        const instructorDetails = getInstructorDetails();
+        if (!instructorDetails) {
+            throw new Error('Instructor details not found');
+        }
+
+        // Changed reference to use courseId directly
+        const courseDescriptionRef = realtimeRef(realtimeDB, `courses/${courseId}`);
+        
+        // Save the course description data, including instructorUid
+        await realtimeSet(courseDescriptionRef, {
+            name: courseData.name,
+            description: courseData.description,
+            category: courseData.category,
+            level: courseData.level,
+            duration: courseData.duration,
+            instructor: courseData.instructor,
+            instructorUid: instructorDetails.uid, // Add instructorUid to the course data
+            videoLink: courseData.videoLink,
+            tags: courseData.tags,
+            id: courseId,
+            createdAt: new Date().toISOString()
+        });
+
+        console.log('Course description saved to Realtime Database');
+        return true;
+    } catch (error) {
+        console.error('Error saving course description to Realtime DB:', error);
+        alert('Failed to save course description. Please try again.');
+        return false;
+    }
+}
+
+// Save course and modules to Firestore
+async function saveCoursesToFirestore(courseData, modules) {
+    try {
+        // Save course to Firestore first
+        const courseRef = await addDoc(collection(db, 'courses'), {
+            ...courseData,
+            createdAt: serverTimestamp(),
+            moduleCount: modules.length
+        });
+        const courseId = courseRef.id;
+
+        // Save modules to Firestore with the same course ID
+        for (let [index, module] of modules.entries()) {
+            await addDoc(collection(db, 'courseModules'), {
+                courseId: courseId,
+                ...module,
+                moduleNumber: index + 1,
+                createdAt: serverTimestamp()
+            });
+        }
+
+        console.log('Course and modules saved to Firestore');
+        return courseId;
+    } catch (error) {
+        console.error('Error saving course to Firestore:', error);
+        alert('Failed to save course modules. Please try again.');
+        return null;
+    }
+}
+
+// Course Creation Form Submit Handler
+document.getElementById('courseCreationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Validate instructor and authentication
+    const instructorDetails = getInstructorDetails();
+    const user = auth.currentUser;
+    
+    if (!instructorDetails || !user) {
+        alert('Please log in to create a course');
+        return;
+    }
+
+    try {
+        // Collect and validate modules
+        const moduleElements = document.querySelectorAll('.module-item');
+        const courseModules = [];
+
+        // Prepare main course data
+        const courseData = {
+            name: document.getElementById('courseName').value,
+            description: document.getElementById('courseDescription').value,
+            category: document.getElementById('courseCategory').value,
+            level: document.getElementById('skillLevel').value,
+            duration: document.getElementById('courseDuration').value,
+            instructor: instructorDetails.name,
+            instructorUid: instructorDetails.uid,
+            videoLink: document.getElementById('courseVideoLink').value,
+            tags: getSelectedTags()
+        };
+
+        // Process and save modules
+        for (let moduleEl of moduleElements) {
+            const moduleTitle = moduleEl.querySelector('.module-title').value;
+            const lessonType = moduleEl.querySelector('.lesson-type').value;
+            
+            let moduleData = {
+                title: moduleTitle,
+                type: lessonType
+            };
+
+            // Process different lesson types
+            switch(lessonType) {
+                case LESSON_TYPES.VIDEO:
+    const videoLink = moduleEl.querySelector('.video-link').value;
+    if (!isValidVideoLink(videoLink)) {
+        alert(`Invalid video link in ${moduleTitle}. Please use a valid YouTube or Google Drive link.`);
+        return;
+    }
+    moduleData.videoLink = videoLink;
+    break;
+
+                case LESSON_TYPES.QUIZ:
+                    const quizQuestions = [];
+                    moduleEl.querySelectorAll('.question-item').forEach(questionEl => {
+                        const questionText = questionEl.querySelector('.question-text').value;
+                        const options = Array.from(questionEl.querySelectorAll('input[type="text"]:not(.question-text)'))
+                            .map(input => input.value);
+                        const correctAnswerIndex = questionEl.querySelector('input[type="radio"]:checked')?.value;
+
+                        quizQuestions.push({
+                            question: questionText,
+                            options: options,
+                            correctAnswer: correctAnswerIndex
+                        });
+                    });
+                    moduleData.quiz = quizQuestions;
+                    break;
+            }
+
+            courseModules.push(moduleData);
+        }
+
+        // Save course and modules to Firestore first to get a consistent course ID
+        const courseId = await saveCoursesToFirestore(courseData, courseModules);
+        
+        if (!courseId) {
+            throw new Error('Failed to generate course ID');
+        }
+
+        // Save course description to Realtime Database using the same course ID
+        const descriptionSaved = await saveCourseDescriptionToRealtimeDB(courseData, courseId);
+
+        if (descriptionSaved) {
+            alert('Course created successfully!');
+            window.location.href = 'instructor-course-management.html';
+        }
+
+    } catch (error) {
+        console.error('Error creating course:', error);
+        alert('Failed to create course. Please try again.');
+    }
+});
+// Create Module Section
+function createModuleSection() {
+    const moduleContainer = document.createElement('div');
+    moduleContainer.id = 'modulesContainer';
+    moduleContainer.innerHTML = `
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5>Course Modules</h5>
+                <button type="button" class="btn btn-primary" id="addModuleBtn">
+                    <i class="fas fa-plus"></i> Add Module
+                </button>
+            </div>
+            <div class="card-body" id="modulesList">
+                <!-- Dynamically added modules will appear here -->
+            </div>
+        </div>
+    `;
+
+    document.querySelector('#courseDescription').closest('.row').after(moduleContainer);
+    document.getElementById('addModuleBtn').addEventListener('click', addNewModule);
+}
+
+function addNewModule() {
+    const modulesList = document.getElementById('modulesList');
+    const moduleIndex = modulesList.children.length + 1;
+
+    const moduleElement = document.createElement('div');
+    moduleElement.classList.add('module-item', 'card', 'mb-3');
+    moduleElement.innerHTML = `
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h6>Module ${moduleIndex}</h6>
+            <button type="button" class="btn btn-danger btn-sm remove-module">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Module Title</label>
+                    <input type="text" class="form-control module-title" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Lesson Type</label>
+                    <select class="form-select lesson-type">
+                        <option value="${LESSON_TYPES.VIDEO}">Video Lesson</option>
+                        <option value="${LESSON_TYPES.QUIZ}">Quick Test</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="lesson-content-container">
+                <!-- Dynamically populated based on lesson type -->
+            </div>
+        </div>
+    `;
+
+    const removeModuleBtn = moduleElement.querySelector('.remove-module');
+    removeModuleBtn.addEventListener('click', () => moduleElement.remove());
+
+    const lessonTypeSelect = moduleElement.querySelector('.lesson-type');
+    const lessonContentContainer = moduleElement.querySelector('.lesson-content-container');
+    
+    lessonTypeSelect.addEventListener('change', (e) => {
+        const lessonType = e.target.value;
+        updateLessonContentUI(lessonContentContainer, lessonType);
+    });
+
+    updateLessonContentUI(lessonContentContainer, LESSON_TYPES.VIDEO);
+
+    modulesList.appendChild(moduleElement);
+}
+
+function updateLessonContentUI(container, lessonType) {
+    switch(lessonType) {
+        case LESSON_TYPES.VIDEO:
+            container.innerHTML = `
+                <div class="mb-3">
+                    <label class="form-label">Video Link (YouTube or Google Drive)</label>
+                    <input type="url" class="form-control video-link" 
+                           pattern="^(https?\:\/\/)?(www\.youtube\.com|youtu\.?be\/.+|docs\.google\.com\/file\/d\/|docs\.google\.com\/open\?id=|docs\.google\.com\/uc\?id=).+$" 
+                           placeholder="Paste YouTube or Google Drive video link" required>
+                </div>
+            `;
+            break;
+    
+        
+        case LESSON_TYPES.QUIZ:
+            container.innerHTML = `
+                <div class="quiz-builder">
+                    <div class="mb-3">
+                        <label class="form-label">Quiz Title</label>
+                        <input type="text" class="form-control quiz-title" required>
+                    </div>
+                    <div id="questionsContainer">
+                        <button type="button" class="btn btn-secondary add-question-btn">
+                            <i class="fas fa-plus"></i> Add Question
+                        </button>
+                    </div>
+                </div>
+            `;
+            setupQuizQuestionManagement(container);
+            break;
+        
+        
+    }
+}
+
+function setupQuizQuestionManagement(container) {
+    const addQuestionBtn = container.querySelector('.add-question-btn');
+    const questionsContainer = container.querySelector('#questionsContainer');
+
+    addQuestionBtn.addEventListener('click', () => {
+        const questionIndex = questionsContainer.children.length;
+        const questionElement = document.createElement('div');
+        questionElement.classList.add('card', 'mb-2', 'question-item');
+        questionElement.innerHTML = `
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">Question ${questionIndex + 1}</label>
+                    <input type="text" class="form-control question-text" required>
+                </div>
+                <div class="answer-options">
+                    ${['A', 'B', 'C', 'D'].map((option, idx) => `
+                        <div class="input-group mb-2">
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0" type="radio" 
+                                       name="correctAnswer${questionIndex}" 
+                                       value="${idx}" 
+                                       aria-label="Radio for correct answer">
+                            </div>
+                            <input type="text" class="form-control" 
+                                   placeholder="Option ${option}" 
+                                   required>
+                        </div>
+                    `).join('')}
+                </div>
+                <button type="button" class="btn btn-danger btn-sm remove-question">
+                    <i class="fas fa-trash"></i> Remove Question
+                </button>
+            </div>
+        `;
+
+        const removeQuestionBtn = questionElement.querySelector('.remove-question');
+        removeQuestionBtn.addEventListener('click', () => questionElement.remove());
+
+        questionsContainer.appendChild(questionElement);
+    });
+}
+
+// Initialize module section on page load
+document.addEventListener('DOMContentLoaded', createModuleSection);
+
+
+
+
+
+
+
+
+
+
+
+function preprocessText(text) {
+    // Convert to lowercase and remove special characters
+    return text.toLowerCase().replace(/[^a-zA-Z\s]/g, '');
+}
+
+function extractKeywords(text) {
+    const stopWords = new Set([
+        'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by'
+    ]);
+
+    // Split text into words, filter out stop words and short words
+    return text.split(/\s+/)
+        .filter(word => word.length > 2 && !stopWords.has(word))
+        .slice(0, 10);  // Limit to 10 keywords
+}
+
+function suggestTags(courseDescription) {
+    const processedText = preprocessText(courseDescription);
+    const keywords = extractKeywords(processedText);
+    
+    // Match keywords against a predefined tag database
+    const matchedTags = getPossibleTags(keywords);
+    displayTagSuggestions(matchedTags);
+}
+
+function displayTagSuggestions(tags) {
+    const suggestionContainer = document.getElementById('tagSuggestions');
+    suggestionContainer.innerHTML = ''; // Clear previous suggestions
+
+    tags.forEach(tag => {
+        const tagElement = document.createElement('span');
+        tagElement.classList.add('badge', 'bg-primary', 'tag-suggestion');
+        tagElement.textContent = tag.name;
+        tagElement.onclick = () => selectTag(tag);
+        suggestionContainer.appendChild(tagElement);
+    });
+}
+
+function selectTag(tag) {
+    const selectedContainer = document.getElementById('selectedTags');
+    
+    // Create tag element with remove capability
+    const tagElement = document.createElement('div');
+    tagElement.classList.add('badge', 'bg-success', 'selected-tag');
+    tagElement.innerHTML = `
+        ${tag.name} 
+        <span class="remove-tag ms-2">&times;</span>
+    `;
+    
+    tagElement.querySelector('.remove-tag').onclick = () => {
+        tagElement.remove();
+    };
+
+    selectedContainer.appendChild(tagElement);
+}
+const TAG_DATABASE = {
+    'technology': [
+        { name: 'Web Development', keywords: ['web', 'development', 'programming'] },
+        { name: 'Data Science', keywords: ['data', 'science', 'analysis'] }
+    ],
+    'business': [
+        { name: 'Marketing', keywords: ['marketing', 'strategy', 'promotion'] },
+        { name: 'Entrepreneurship', keywords: ['startup', 'business', 'entrepreneur'] }
+    ],
+    'Computer_science': [
+        { name: 'Artificial Intelligence', keywords: ['ai', 'artificial', 'intelligence', 'machine learning'] },
+        { name: 'Cybersecurity', keywords: ['cybersecurity', 'hacking', 'network security', 'data protection'] },
+        { name: 'Cloud Computing', keywords: ['cloud', 'aws', 'azure', 'google cloud'] },
+        { name: 'Software Engineering', keywords: ['software', 'development', 'engineering', 'programming'] },
+        { name: 'Data Structures', keywords: ['data', 'structures', 'algorithms', 'trees'] },
+        { name: 'Database Management', keywords: ['database', 'sql', 'nosql', 'data storage'] },
+        { name: 'Operating Systems', keywords: ['os', 'linux', 'windows', 'system programming'] },
+        { name: 'Web Development', keywords: ['web', 'frontend', 'backend', 'html', 'css'] },
+        { name: 'Mobile App Development', keywords: ['mobile', 'android', 'ios', 'flutter'] },
+        { name: 'Game Development', keywords: ['game', 'unity', 'unreal', '3d development'] },
+        { name: 'DevOps', keywords: ['devops', 'ci/cd', 'docker', 'kubernetes'] },
+        { name: 'Blockchain', keywords: ['blockchain', 'cryptocurrency', 'bitcoin', 'smart contracts'] }
+    ],
+    'biology': [
+        { name: 'Genetics', keywords: ['genetics', 'dna', 'genes', 'heredity'] },
+        { name: 'Microbiology', keywords: ['microbiology', 'bacteria', 'viruses', 'pathogens'] },
+        { name: 'Ecology', keywords: ['ecology', 'environment', 'biodiversity', 'ecosystem'] },
+        { name: 'Biotechnology', keywords: ['biotech', 'bioengineering', 'genetic modification'] },
+        { name: 'Cell Biology', keywords: ['cells', 'cytology', 'organelles', 'cell membrane'] },
+        { name: 'Molecular Biology', keywords: ['molecular', 'dna', 'rna', 'proteins'] },
+        { name: 'Human Anatomy', keywords: ['anatomy', 'organs', 'skeletal', 'muscular'] },
+        { name: 'Zoology', keywords: ['zoology', 'animals', 'species', 'habitats'] },
+        { name: 'Botany', keywords: ['plants', 'photosynthesis', 'flora', 'botanical'] },
+        { name: 'Immunology', keywords: ['immune', 'antibodies', 'vaccines', 'pathogens'] },
+        { name: 'Evolution', keywords: ['evolution', 'natural selection', 'darwin', 'species'] },
+        { name: 'Marine Biology', keywords: ['marine', 'ocean', 'aquatic', 'marine life'] }
+    ],
+    'commerce': [
+        { name: 'Accounting', keywords: ['accounting', 'finance', 'bookkeeping', 'tax'] },
+        { name: 'Economics', keywords: ['economics', 'macro', 'micro', 'market'] },
+        { name: 'Investment', keywords: ['investment', 'stocks', 'funds', 'portfolio'] },
+        { name: 'E-Commerce', keywords: ['e-commerce', 'online', 'digital marketing', 'retail'] },
+        { name: 'Marketing', keywords: ['marketing', 'promotion', 'strategy', 'branding'] },
+        { name: 'Entrepreneurship', keywords: ['entrepreneurship', 'startup', 'innovation', 'business'] },
+        { name: 'Human Resource Management', keywords: ['hr', 'recruitment', 'talent', 'training'] },
+        { name: 'Business Analytics', keywords: ['analytics', 'data', 'business', 'insights'] },
+        { name: 'Taxation', keywords: ['taxation', 'income tax', 'corporate tax', 'returns'] },
+        { name: 'Banking', keywords: ['banking', 'loans', 'credit', 'financial services'] },
+        { name: 'International Trade', keywords: ['trade', 'export', 'import', 'global markets'] },
+        { name: 'Supply Chain Management', keywords: ['supply', 'logistics', 'procurement', 'inventory'] }
+    ],
+    'computer_science': [
+        { name: 'Basics of Coding', keywords: ['coding', 'programming', 'logic', 'syntax'] },
+        { name: 'Web Design', keywords: ['web', 'html', 'css', 'design'] },
+        { name: 'Computer Hardware', keywords: ['hardware', 'cpu', 'ram', 'storage'] },
+        { name: 'Introduction to AI', keywords: ['ai', 'artificial intelligence', 'smart systems'] },
+        { name: 'Game Programming', keywords: ['games', 'coding', 'unity', 'game design'] },
+        { name: 'Networking Basics', keywords: ['networks', 'wifi', 'internet', 'routers'] },
+        { name: 'Mobile Apps', keywords: ['apps', 'android', 'ios', 'development'] },
+        { name: 'Cyber Safety', keywords: ['cyber', 'safety', 'passwords', 'hacking'] },
+        { name: 'Data Storage', keywords: ['data', 'cloud', 'files', 'backup'] },
+        { name: 'Programming Languages', keywords: ['python', 'java', 'c++', 'coding'] },
+        { name: 'Robotics Basics', keywords: ['robots', 'coding', 'electronics', 'sensors'] },
+        { name: 'Animation and Graphics', keywords: ['animation', 'graphics', 'design', '3d'] }
+    ],
+    'biology': [
+        { name: 'Human Body Systems', keywords: ['body', 'organs', 'functions', 'health'] },
+        { name: 'Plant Biology', keywords: ['plants', 'photosynthesis', 'roots', 'leaves'] },
+        { name: 'Animals and Habitats', keywords: ['animals', 'habitats', 'adaptation', 'wildlife'] },
+        { name: 'Cells and Their Functions', keywords: ['cells', 'parts', 'function', 'structure'] },
+        { name: 'DNA Basics', keywords: ['dna', 'genes', 'inheritance', 'traits'] },
+        { name: 'Ecosystems', keywords: ['ecosystem', 'food chain', 'energy', 'environment'] },
+        { name: 'Health and Diseases', keywords: ['health', 'disease', 'prevention', 'vaccines'] },
+        { name: 'Microorganisms', keywords: ['bacteria', 'viruses', 'fungi', 'microscope'] },
+        { name: 'Biotechnology Basics', keywords: ['biotech', 'genes', 'genetics', 'experiments'] },
+        { name: 'Life Processes', keywords: ['nutrition', 'respiration', 'growth', 'reproduction'] },
+        { name: 'Evolution Basics', keywords: ['evolution', 'species', 'adaptation', 'changes'] },
+        { name: 'Marine Life', keywords: ['ocean', 'fish', 'corals', 'water life'] }
+    ],
+    'commerce': [
+        { name: 'Introduction to Business', keywords: ['business', 'company', 'products', 'services'] },
+        { name: 'Money Management', keywords: ['money', 'saving', 'budgeting', 'expenses'] },
+        { name: 'Banking Basics', keywords: ['banks', 'accounts', 'loans', 'savings'] },
+        { name: 'Introduction to Marketing', keywords: ['marketing', 'ads', 'products', 'promotion'] },
+        { name: 'E-Commerce Basics', keywords: ['online', 'shopping', 'websites', 'retail'] },
+        { name: 'Investing for Beginners', keywords: ['stocks', 'investment', 'money', 'saving'] },
+        { name: 'Careers in Commerce', keywords: ['commerce', 'jobs', 'fields', 'business'] },
+        { name: 'Supply and Demand', keywords: ['supply', 'demand', 'market', 'price'] },
+        { name: 'Introduction to Accounting', keywords: ['accounting', 'money', 'expenses', 'records'] },
+        { name: 'Trade Basics', keywords: ['trade', 'goods', 'services', 'exchange'] },
+        { name: 'Entrepreneurship Basics', keywords: ['startup', 'business', 'ideas', 'growth'] },
+        { name: 'Teamwork and Leadership', keywords: ['team', 'leader', 'projects', 'goals'] }
+    ]
+
+};
+function getPossibleTags(keywords) {
+    const matchedTags = [];
+    
+    Object.values(TAG_DATABASE).forEach(categoryTags => {
+        categoryTags.forEach(tag => {
+            if (tag.keywords.some(keyword => keywords.includes(keyword))) {
+                matchedTags.push(tag);
+            }
+        });
+    });
+
+    return matchedTags;
+}
+document.getElementById('courseDescription').addEventListener('input', function() {
+    const courseText = this.value;
+    if (courseText.length > 10) {
+        suggestTags(courseText);
+    }
+});
+// Module and Lesson Management Script
+
+
+
+
+
+// Sidebar Toggle
+const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+</script>
+</body>
+</html>

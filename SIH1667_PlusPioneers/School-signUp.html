@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - School Registration</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body { 
+            background-color: #f4f6f9; 
+            font-family: 'Arial', sans-serif;
+        }
+        .form-container { 
+            background-color: white; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 500px;
+            margin: 50px auto;
+        }
+        .brand-orange { color: #FF6B35; }
+        .brand-green { color: #4ECB71; }
+        .contact-option {
+            border: 2px solid #f4f6f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .contact-option:hover {
+            border-color: #4ECB71;
+            background-color: #f0f0f0;
+        }
+        .contact-option.selected {
+            border-color: #FF6B35;
+            background-color: #f0f0f0;
+        }
+        #board-options .btn {
+            margin: 2px;
+        }
+        .footer {
+            background-color: #181515;
+            color: white;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container" id="school-name-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">School Registration - Basic Details</h3>
+            
+            <form id="school-name-form">
+                <div class="mb-3">
+                    <label for="school-name" class="form-label">Full School Name</label>
+                    <input type="text" class="form-control" id="school-name" placeholder="Enter complete school name" required>
+                </div>
+                <div class="mb-3">
+                    <label for="udise-code" class="form-label">UDISE Code</label>
+                    <input type="text" class="form-control" id="udise-code" placeholder="11-digit Unique Identification Code" required pattern="\d{11}">
+                </div>
+                <div id="name-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+            <div class="signup-link">
+                <p>Already have an account? <a href="School-login.html">Register School</a></p>
+            </div>
+        </div>
+
+        <div class="form-container d-none" id="board-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">School Registration - Board</h3>
+            
+            <form id="board-form">
+                <div class="mb-3">
+                    <p class="text-center">Select your school's academic board</p>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="contact-option text-center" data-board="CBSE">
+                                <h5>CBSE</h5>
+                                <p>Central Board of Secondary Education</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="contact-option text-center" data-board="ICSE">
+                                <h5>ICSE</h5>
+                                <p>Indian Certificate of Secondary Education</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="contact-option text-center" data-board="State Board">
+                                <h5>State Board</h5>
+                                <p>State-specific Education Board</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="board-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+        </div>
+
+        <div class="form-container d-none" id="contact-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">School Registration - Contact Details</h3>
+            
+            <form id="contact-form">
+                <div class="mb-3">
+                    <label for="school-email" class="form-label">Official School Email</label>
+                    <input type="email" class="form-control" id="school-email" placeholder="Enter school email address" required>
+                </div>
+                <div class="mb-3">
+                    <label for="school-phone" class="form-label">School Contact Number</label>
+                    <input type="tel" class="form-control" id="school-phone" placeholder="Enter school contact number" required>
+                </div>
+                <div class="mb-3">
+                    <label for="school-address" class="form-label">School Full Address</label>
+                    <textarea class="form-control" id="school-address" rows="3" placeholder="Enter complete school address" required></textarea>
+                </div>
+                <div id="contact-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Next</button>
+            </form>
+        </div>
+
+        <div class="form-container d-none" id="admin-page">
+            <h2 class="text-center mb-4">
+                <span class="brand-orange">CAREER</span> 
+                <span class="brand-green">CRAFT</span>
+            </h2>
+            <h3 class="text-center mb-4">School Registration - Admin Account</h3>
+            
+            <form id="admin-form">
+                <div class="mb-3">
+                    <label for="admin-email" class="form-label">Admin Email</label>
+                    <input type="email" class="form-control" id="admin-email" placeholder="Enter admin email" required>
+                </div>
+                <div class="mb-3">
+                    <label for="admin-password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="admin-password" placeholder="Create admin password" required minlength="6">
+                </div>
+                <div class="mb-3">
+                    <label for="confirm-password" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm-password" placeholder="Confirm password" required minlength="6">
+                </div>
+                <div id="admin-error" class="alert alert-danger d-none"></div>
+                <button type="submit" class="btn btn-primary w-100">Complete Registration</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" alt="Government Logo" class="mb-3" onclick="navigateTo(PATHS.home)" style="cursor: pointer;">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" onclick="navigateTo(PATHS.support)" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.contact)" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" onclick="navigateTo(PATHS.about)" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.firebasestorage.app",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a",
+            measurementId: "G-YND0YL7Y94"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        // School Registration Data
+        const schoolRegistrationData = {
+            name: '',
+            udiseCode: '',
+            board: '',
+            email: '',
+            phone: '',
+            address: '',
+            currentAdministrator: '' // Changed from adminEmail
+        };
+
+        // School Name Form Submission
+        document.getElementById('school-name-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const schoolName = document.getElementById('school-name').value;
+            const udiseCode = document.getElementById('udise-code').value;
+
+            // Basic validation
+            if (udiseCode.length !== 11) {
+                const nameError = document.getElementById('name-error');
+                nameError.textContent = 'UDISE Code must be 11 digits';
+                nameError.classList.remove('d-none');
+                return;
+            }
+
+            // Store data
+            schoolRegistrationData.name = schoolName;
+            schoolRegistrationData.udiseCode = udiseCode;
+
+            // Hide current page, show board selection
+            document.getElementById('school-name-page').classList.add('d-none');
+            document.getElementById('board-page').classList.remove('d-none');
+        });
+
+        // Board Selection Logic
+        const boardOptions = document.querySelectorAll('.contact-option');
+        boardOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                boardOptions.forEach(opt => opt.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        // Board Form Submission
+        document.getElementById('board-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const selectedBoard = document.querySelector('.contact-option.selected');
+            
+            if (!selectedBoard) {
+                const boardError = document.getElementById('board-error');
+                boardError.textContent = 'Please select a board';
+                boardError.classList.remove('d-none');
+                return;
+            }
+
+            // Store board data
+            schoolRegistrationData.board = selectedBoard.dataset.board;
+
+            // Hide board page, show contact page
+            document.getElementById('board-page').classList.add('d-none');
+            document.getElementById('contact-page').classList.remove('d-none');
+        });
+
+        // Contact Form Submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const schoolEmail = document.getElementById('school-email').value;
+            const schoolPhone = document.getElementById('school-phone').value;
+            const schoolAddress = document.getElementById('school-address').value;
+
+            // Store contact details
+            schoolRegistrationData.email = schoolEmail;
+            schoolRegistrationData.phone = schoolPhone;
+            schoolRegistrationData.address = schoolAddress;
+
+            // Hide contact page, show admin page
+            document.getElementById('contact-page').classList.add('d-none');
+            document.getElementById('admin-page').classList.remove('d-none');
+        });
+
+        document.getElementById('admin-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const adminEmail = document.getElementById('admin-email').value;
+            const password = document.getElementById('admin-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const adminError = document.getElementById('admin-error');
+
+            // Password validation
+            if (password !== confirmPassword) {
+                adminError.textContent = 'Passwords do not match';
+                adminError.classList.remove('d-none');
+                return;
+            }
+
+            try {
+                // Create user with Firebase Authentication using Official School Email
+                const userCredential = await createUserWithEmailAndPassword(auth, schoolRegistrationData.email, password);
+                const user = userCredential.user;
+
+                // Store Admin Email as currentAdministrator in the database
+                schoolRegistrationData.currentAdministrator = adminEmail;
+
+                // Save school details to Firebase Realtime Database
+                await set(ref(database, 'schools/' + schoolRegistrationData.udiseCode), {
+                    ...schoolRegistrationData,
+                    userId: user.uid
+                });
+
+                // Redirect to school dashboard
+                window.location.href = 'school-dashboard.html';
+            } catch (error) {
+                adminError.textContent = `Error: ${error.message}`;
+                adminError.classList.remove('d-none');
+            }
+        });
+    </script>
+</body>
+</html>

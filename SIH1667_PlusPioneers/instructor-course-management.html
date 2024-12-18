@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Craft - Course Management Options</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-orange: #FF6B00;
+            --primary-green: #4CAF50;
+        }
+        
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .brand-orange {
+            color: var(--primary-orange);
+        }
+        
+        .brand-green {
+            color: var(--primary-green);
+        }
+        
+        .navbar {
+            background-color: #000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+
+        .navbar-brand img {
+            height: 40px;
+        }
+
+
+        .nav-link {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-orange);
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.25);
+        }
+
+        .sidebar {
+            height: 100vh;
+            background-color: #002B3D;
+            color: white;
+            position: fixed;
+            left: -250px;
+            top: 0;
+            width: 250px;
+            transition: left 0.3s ease;
+            padding-top: 60px;
+            z-index: 1000;
+        }
+
+        .sidebar.active {
+            left: 0;
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 999;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+        body {
+            background-color: #f4f4f4;
+        }
+        .course-option-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .course-option-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .footer {
+            background-color: #000;
+            color: white;
+            padding: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation (Same as Dashboard) -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <!-- Hamburger Menu -->
+            <button id="sidebarToggle" class="btn btn-outline-light me-3">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Brand -->
+            <a href="index.html" class="navbar-brand d-flex align-items-center">
+                
+                <span class="brand-orange">CAREER</span>
+                <span class="brand-green ms-2">CRAFT</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                
+                <ul class="navbar-nav ms-auto gap-5">
+                    <li class="nav-item">
+                        <a href="instructor-dashboard.html" class="nav-link pt-3">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="instructor-course-management.html" class="nav-link">Course<br>Management</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a href="instructor-login.html" onclick="AuthManager.logout()" class="nav-link pt-3">Logout</a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Profile Picture -->
+            <div class="ms-3">
+                <a href="instructor-profile.html">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/Profile%20image.png?raw=true" 
+                         alt="Profile" class="rounded-circle profile-img">
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="list-group">
+            <a href="instructor-dashboard.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </a>
+            <a href="instructor-course-management.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-book me-2"></i>Course Management
+            </a>
+            <a href="student-interaction.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-users me-2"></i>Student Interaction
+            </a>
+            <a href="earnings.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-dollar-sign me-2"></i>Earnings and Payments
+            </a>
+            <a href="certification.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-certificate me-2"></i>Certification Management
+            </a>
+            <a href="profile-management.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-user me-2"></i>Profile Management
+            </a>
+            <a href="support.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-question-circle me-2"></i>Help & Support
+            </a>
+            <a href="settings.html" class="list-group-item list-group-item-action">
+                <i class="fas fa-cog me-2"></i>Settings
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Course Management</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <a href="create-new-course.html" class="text-decoration-none">
+                    <div class="card course-option-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-plus-circle fa-3x text-success mb-3"></i>
+                            <h3 class="card-title">Create New Course</h3>
+                            <p class="card-text text-muted">Design and launch a brand new course</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-6 mb-4">
+                <a href="edit-existing-course.html" class="text-decoration-none">
+                    <div class="card course-option-card">
+                        <div class="card-body text-center">
+                            <i class="fas fa-edit fa-3x text-primary mb-3"></i>
+                            <h3 class="card-title">Edit Existing Courses</h3>
+                            <p class="card-text text-muted">Modify courses you've created</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Footer (Same as Dashboard) -->
+    <footer class="footer mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="https://github.com/PlusPioneers/CareerCraftProject/blob/main/Images/MOE%20Logo.png?raw=true" 
+                         alt="Government Logo" class="mb-3">
+                    <h5>
+                        <span class="brand-orange">CAREER</span> 
+                        <span class="brand-green">CRAFT</span>
+                    </h5>
+                    <p>Crafting Skills, Shaping Futures</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Contact Information:</h5>
+                    <p><a href="#" class="text-white text-decoration-none">Email: support@careercraft.com</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Phone: +91 9940587477</a></p>
+                    <p><a href="#" class="text-white text-decoration-none">Address: 123 Career Street, Education City, India.</a></p>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p>© 2024 Career Craft. All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Authentication Management Script -->
+    <script type="module">
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-azey3wiBUtr_ujjzrwl3vFc0rGwBWII",
+            authDomain: "career-craft-1667.firebaseapp.com",
+            databaseURL: "https://career-craft-1667-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "career-craft-1667",
+            storageBucket: "career-craft-1667.firebasestorage.app",
+            messagingSenderId: "616676439535",
+            appId: "1:616676439535:web:2019ad5c6d122728c6721a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Authentication state management
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                // Redirect to login if not authenticated
+                window.location.href = 'instructor-login.html';
+            }
+        });
+
+        // Authentication Manager
+        window.AuthManager = {
+            logout: function() {
+                auth.signOut().then(() => {
+                    // Clear local storage
+                    localStorage.removeItem('instructorDetails');
+                    // Redirect to login page
+                    window.location.href = 'instructor-login.html';
+                }).catch((error) => {
+                    console.error('Logout error:', error);
+                });
+            }
+        };
+        // Sidebar Toggle
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+        
+    </script>
+</body>
+</html>
