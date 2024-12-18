@@ -1,4 +1,4 @@
-#CareerCraft
+CareerCraft
 
 CareerCraft is a comprehensive student portal designed to empower students in grades 9 to 12 with the tools, skills, and guidance needed to make informed career choices. The platform integrates vocational education, skill development, and industry collaboration, with the aid of AI-driven recommendations.
 
